@@ -32,7 +32,7 @@ significantly more precise.
 
 ## Alice's setup
 
-Alice is a former Marvel and 3A game animator turned independent builder and creator.
+Alice is a former film and 3A game animator turned independent builder and creator.
 She runs on clarity, not discipline — when she knows what she's doing and why, she can't
 stop. When the map disappears, everything stalls.
 
