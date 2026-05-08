@@ -1,10 +1,30 @@
 # life-coach
 
-An AI skill that knows you well enough to call your bullshit.
+**This is your truth teller.**
 
-Builds a God's-eye view of who you are from your conversation history — or your journal if you keep one. Names your patterns before you finish describing them. Calls out what you're rationalizing as strategy when it's actually fear. Makes the fear specific so it's smaller.
+The friend who tells you what's actually happening — especially when you've built a very convincing story about why it's fine.
 
-No soft answers. No generic advice. It knows this specific person.
+It knows your patterns. It knows the gap between what you say you want and what you're actually doing. And unlike every other AI, it can prove it — because it's been reading your history.
+
+---
+
+## What makes it different from generic AI
+
+Every AI tries to push back sometimes. But it's pushing back with no information about you specifically. It's giving advice that could apply to anyone.
+
+life-coach pushes back with *your* data. It's seen the pattern three times before. It knows which Villager is running right now. It knows which area of your life has gone quiet. When it calls something out, it's not a heuristic. It's your actual behavior.
+
+That's what makes it land.
+
+---
+
+## But it knows when not to push
+
+The truth teller knows when you need the cheerleader first.
+
+When you show up defeated — wins sparse, tone low — life-coach reads your `wins/timeline.md` before it says anything. It leads with what you've actually done. It hands you evidence before it asks anything hard.
+
+Because calling someone out when they're already down isn't honesty. It's just timing it badly.
 
 ---
 
@@ -14,35 +34,29 @@ No soft answers. No generic advice. It knows this specific person.
 Load the skill at life-coach/SKILL.md
 ```
 
-First run asks 5 questions to build your profile from conversation. Every session after, it remembers and builds on what it knows.
+First run asks 5 questions. Every session after, it remembers.
 
 ---
 
 ## What it does
 
-**Calls patterns.** When you're running a loop — avoidance, perfectionism, the late-night pivot — it names it before you finish the sentence.
+**Knows you.** Builds a pattern library from your history. Updates every session.
 
-**Mirrors the truth.** Uses the Dan Koe framework to answer the hard questions about your identity, your unconscious goals, and the gap between what you say and what you do. Shows you the answer. Says: "Tell me where I'm wrong."
+**Calls patterns.** Names the loop before you finish describing the situation.
 
-**Surfaces evidence.** When you say you can't do something, it pulls from your wins history to show you've already done it. Not "you can do this." Actual proof.
+**Mirrors the truth.** Answers the hard questions about your identity and unconscious goals — from your own data. Shows you the answer. Says: "Tell me where I'm wrong."
 
-**Runs the game.** Daily quests, season arcs, Clarity Tokens, named Villager characters for your recurring patterns. Growth feels like arriving somewhere, not grinding.
+**Leads with wins when you need it.** Reads lifemaxxing's win history. When you're low, it shows you what you've done before it asks anything hard.
+
+**Runs the game.** Daily quests, season arcs, Clarity Tokens, Villager characters for your patterns. Growth feels like building something.
 
 ---
 
-## Works with lifemaxxing
+## When it hands off to lifemaxxing
 
-life-coach reads from `~/.alicestack/wins/timeline.md` (written by lifemaxxing) to:
-- See which areas of life are going quiet
-- Connect quiet areas to active Villager patterns
-- Pull real evidence from your win history when you need it
-
-life-coach writes to `~/.alicestack/game-state.md` so lifemaxxing can:
-- Include Villager status in the morning brief
-- Flag when wins look like pattern behavior, not real progress
-- Connect arc progress to daily scores
-
-[See shared state schema →](../shared/state-schema.md)
+- You show up defeated or uncertain → lifemaxxing leads with win evidence first
+- Wins have been sparse for 5+ days → cheerleader mode before pattern audit
+- You explicitly say you're struggling → evidence first, hard questions later
 
 ---
 
@@ -50,7 +64,7 @@ life-coach writes to `~/.alicestack/game-state.md` so lifemaxxing can:
 
 | Thing | What it is |
 |-------|------------|
-| Daily quest | Today's ONE THING, tracked |
+| Daily quest | Today's ONE THING |
 | Season arc | 2–8 week sprint toward your main goal |
 | Clarity Token | Earned by completing quests, catching your own patterns |
 | Villager | A named pattern character — appears when the pattern fires |
@@ -59,13 +73,18 @@ Token unlocks: 10 → choose your quest · 25 → rest day · 50 → big picture
 
 ---
 
-## Optional: point it at your files
+## Works with lifemaxxing
 
-```
-"My profile files are at [path]. Read them."
-```
+Reads `~/.alicestack/wins/timeline.md` — lifemaxxing's daily win log — to:
+- Surface evidence when you say you can't do something
+- Connect quiet areas to active Villager patterns
+- Lead with wins when you need them
 
-Works with Obsidian vault, plain markdown, or `~/.alicestack/`. Profile template at `profile-template/`.
+Writes `~/.alicestack/game-state.md` so lifemaxxing can:
+- Include Villager status in the morning brief
+- Flag when wins look like pattern behavior, not real progress
+
+[Shared state schema →](../shared/state-schema.md)
 
 ---
 
@@ -85,4 +104,4 @@ life-coach/
 
 ---
 
-*Part of [alicestack](../README.md)*
+*Part of [alicestack](../README.md) — the truth teller. Works with [lifemaxxing](../lifemaxxing/README.md), the cheerleader.*

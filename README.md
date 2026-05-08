@@ -1,56 +1,83 @@
 # alicestack
 
-**alicestack turns your AI agent from a generic assistant into one that knows your patterns, calls your bullshit, and tracks your actual growth — not someone else's.**
+**Everyone needs two types of friends.**
 
-Two opinionated skills for any AI agent. One that pushes back on what you're rationalizing. One that finds the wins you forgot you had. Built for founders in SF who are grinding hard and feeling behind.
+A **truth teller** — someone who tells you what's actually happening, especially when you can't see it yourself. Who names the pattern. Who calls out what you're rationalizing as strategy when it's actually fear.
+
+A **cheerleader** — someone who believes in you even when you don't. Who reminds you what you've already done. Who shows up with evidence, not just vibes.
+
+Most people have neither. And your AI — no matter how good it is — is neither. Because it doesn't know you.
+
+---
+
+## The problem with every other AI
+
+Your AI is already trying to be a cheerleader. It says "you've got this" and "you're doing great." But it has zero idea if that's actually true. It doesn't know your wins. It doesn't know your patterns. It doesn't know what you've been avoiding for six months or what you shipped last Tuesday.
+
+Generic encouragement with no evidence behind it isn't support. It's noise.
+
+And when it pushes back? Same problem. It gives advice that could apply to anyone. It doesn't know that this new plan is the third version of the same avoidance. It can't see that.
+
+So both modes fail — the cheerleading is empty and the feedback is generic — because the AI doesn't know you.
 
 ---
 
 ## Without alicestack
 
-- You keep making the same decisions that are stopping you from reaching your highest potential because you can't see it
-- You don't count your wins because they don't look like the person next to you at the coffee shop
-- You know what you're avoiding. You're just so smart you can even fool yourself
+- Your AI cheers you on with no idea whether you deserve it — "great job!" about a thing it doesn't know the context of
+- Your AI gives advice that could apply to any founder in any city at any stage — it has no idea who you specifically are
+- You keep making the same decisions that are stopping you from reaching your highest potential because no one can see the pattern from the outside
+- You don't count your wins because they don't look like the person next to you at the coffee shop — and your AI doesn't have your wins either, so it can't correct you
+- You know what you're avoiding. You're just so smart you can even fool yourself. And your AI agrees with you.
 - Nothing is watching other areas of your life — career is up, everything else is quietly falling apart
-- Every AI therapy session starts from zero — you re-explain your context, get generic advice, feel nothing
+- Every session starts from zero — you re-explain your context, get generic advice, feel nothing
 
 ---
 
 ## With alicestack
 
-| Skill | Mode | What it does |
-|-------|------|-------------|
-| `life-coach` | Honest friend who read your journal | Builds a profile of who you actually are from your conversation history. Names your patterns before you finish describing the situation. Calls out what you're rationalizing as strategy when it's actually fear. Makes the fear specific so it's smaller. |
-| `lifemaxxing` | Personal analyst who tracks you, not the market | Reads whatever you wrote today and finds the wins you forgot. Scores 5 life areas every day. Tracks your growth against your own baseline — not the founder with more funding. Tells you when an area goes quiet before it breaks. |
+Two skills. Two friends. One system that knows you.
+
+| Skill | The friend | What it does |
+|-------|-----------|-------------|
+| `life-coach` | **Truth teller** | Builds a real profile of who you are from your history. Names your patterns before you finish describing the situation. Calls out what you're rationalizing. Pushes back with evidence from your own behavior — not generic advice. |
+| `lifemaxxing` | **Cheerleader** | Reads what you wrote and finds the wins you forgot. Tracks your growth against your own baseline. When you say "I haven't done anything" — it shows you your timeline and proves you wrong. Believes in you with receipts. |
+
+**The system knows when to switch.**
+
+When you're low on confidence and your wins have been sparse → `lifemaxxing` leads. It pulls what you've actually done and hands it back before anything else.
+
+When you're running a pattern and something's been quiet too long → `life-coach` steps in. Names what's happening. Asks the question you've been avoiding.
+
+Both skills share the same memory. `life-coach` reads your wins history. `lifemaxxing` reads your pattern and game state. They're not two separate tools — they're two modes of the same person who knows you.
 
 ---
 
-## Situation by situation
+## When the system switches modes
 
-| Situation | Without | With |
-|-----------|---------|------|
-| You bring a new plan | Agent builds it. Never asks if this is the same move you made last quarter. | Names whether it's a real move or the same avoidance in new clothes. |
-| You feel behind everyone at the event | No data. Just the feeling. | Shows your actual growth over the last 30 days against your own starting point. |
-| You haven't written anything this week | Nothing tracks it. Shame. Stop. | Finds wins from whatever you did write. Short entry ≠ empty week. |
-| Career is going well | Looks like winning. | Flags that health hasn't had a win in 9 days and relationships in 14. |
-| You describe a habit you want to break | Agent helps you plan to break it. | Names what you're afraid of on the other side so the fear stops running silently. |
-| You feel like an impostor | "You're doing great." | Shows you the specific proof of what you've already done that proves you can do this. |
+| You signal | Who leads | What happens |
+|-----------|-----------|-------------|
+| "I haven't done anything" / defeated tone | Cheerleader | Pulls last 7 days of wins from timeline. Shows evidence before any feedback. |
+| Same pattern appearing again | Truth teller | Names the loop. Connects it to what's been quiet. |
+| Sparse wins + Villager active | Both | Life-coach names the connection. Lifemaxxing finds any wins that were there anyway. |
+| You ask for real pushback | Truth teller | Full pattern audit. No softening. |
+| You say you're struggling | Cheerleader | Leads with what you've done. Holds the hard truth for later. |
 
 ---
 
 ## What's in here
 
-### `life-coach/`
-
-A life mentor skill. Builds a God's-eye view of who you are from your conversation history — or your journal if you keep one. Names your patterns. Pushes back. Runs a game layer so showing up feels like building something, not maintaining willpower.
-
+### `life-coach/` — your truth teller
+Builds a profile of who you are. Calls your patterns. Pushes back with evidence from your own behavior. Runs a game layer so growth feels like arriving somewhere.
 [Read more →](life-coach/README.md)
 
-### `lifemaxxing/`
-
-A daily wins tracker across 5 areas of life: Finance, Career, Personal Growth, Health, Relationships. The agent reads whatever you wrote and finds the wins you forgot. Tracks you against your own baseline. Alerts you when an area goes quiet.
-
+### `lifemaxxing/` — your cheerleader
+Finds the wins you forgot you had. Tracks 5 areas of life daily. Proves you're growing when you can't see it. Alerts the truth teller when something goes quiet.
 [Read more →](lifemaxxing/README.md)
+
+### `shared/`
+The shared memory both skills read and write. This is what makes them one system instead of two.
+[State schema →](shared/state-schema.md)
 
 ---
 

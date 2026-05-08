@@ -1,5 +1,22 @@
 # alicestack — shared state schema
 
+## Mode-switching protocol
+
+Both skills share memory. Together they decide when to be the truth teller and when to be the cheerleader.
+
+| Signal | Who leads | What happens |
+|--------|-----------|-------------|
+| User sounds defeated / sparse wins last 7 days | Cheerleader (lifemaxxing) | Pull win evidence first. Show receipts before any feedback or pushback. |
+| Same Villager pattern appearing again | Truth teller (life-coach) | Name the loop. Ask the question the user is avoiding. |
+| Area quiet 5+ days + Villager active | Both | Life-coach names the connection. Lifemaxxing finds any wins that were there anyway. |
+| User explicitly asks for pushback | Truth teller | Full pattern audit. No softening. |
+| User says they're struggling | Cheerleader | Lead with wins. Hold the hard questions for later. |
+| Win pattern looks like avoidance (building systems, not shipping) | Truth teller | Flag it specifically. "You built 3 things this week. Did anything ship?" |
+
+**The rule:** Evidence before judgment. Always check what they've actually done before calling anything out. The cheerleader goes first when confidence is low. The truth teller goes first when a pattern is running unchecked.
+
+---
+
 Both `life-coach` and `lifemaxxing` read and write from the same folder at runtime:
 
 ```
