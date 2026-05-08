@@ -17,7 +17,15 @@ const MONTH_NAME_TO_INDEX: Record<string, number> = {
   dec: 11, december: 11,
 }
 
-export const LIFE_AREAS = ['finance', 'social', 'growth', 'health', 'career', 'unclassified'] as const
+// Keep aligned with app/src/wins.ts (AREA_LINE parsing for timeline-life.md).
+export const LIFE_AREAS = [
+  'finance',
+  'relationships',
+  'growth',
+  'health',
+  'career',
+  'unclassified',
+] as const
 export type LifeArea = typeof LIFE_AREAS[number]
 
 export type Win = {

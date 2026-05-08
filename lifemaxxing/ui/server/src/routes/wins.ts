@@ -2,10 +2,10 @@ import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { Hono } from 'hono'
-import { readConfig } from '../config-store.ts'
-import { getRevealAtMap, readTimeline, deleteWin, updateWinAreasInFile } from '../obsidian.ts'
+import { readConfig } from '../config-store.js'
+import { getRevealAtMap, readTimeline, deleteWin, updateWinAreasInFile } from '../obsidian.js'
 import { parseTimelineMarkdown } from '../timeline-parser.ts'
-import { LIFE_AREAS, type LifeArea } from '../claude.ts'
+import { LIFE_AREAS, type LifeArea } from '../area-scores.js'
 
 const wins = new Hono()
 

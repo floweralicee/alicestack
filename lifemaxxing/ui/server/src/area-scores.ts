@@ -1,8 +1,15 @@
 import { readFile } from 'fs/promises'
 import path from 'path'
 
-const AREAS = ['finance', 'career', 'growth', 'health', 'relationships'] as const
-type Area = (typeof AREAS)[number]
+/** Canonical win areas — shared with PATCH /api/wins validation and prompts. */
+export const LIFE_AREAS = [
+  'finance',
+  'career',
+  'growth',
+  'health',
+  'relationships',
+] as const
+export type LifeArea = (typeof LIFE_AREAS)[number]
 
 /**
  * Returns total wins per area over the last N days.
@@ -11,8 +18,10 @@ type Area = (typeof AREAS)[number]
 export async function getRecentAreaScores(
   obsidianPath: string,
   days: number
-): Promise<Record<Area, number>> {
-  const scores = Object.fromEntries(AREAS.map((a) => [a, 0])) as Record<Area, number>
+): Promise<Record<LifeArea, number>> {
+  const scores = Object.fromEntries(
+    LIFE_AREAS.map((a) => [a, 0]),
+  ) as Record<LifeArea, number>
 
   if (!obsidianPath) return scores
 
@@ -38,7 +47,7 @@ export async function getRecentAreaScores(
 
     const areaMatch = block.match(/^area:\s*(\w+)/m)
     if (!areaMatch) continue
-    const area = areaMatch[1].toLowerCase() as Area
+    const area = areaMatch[1].toLowerCase() as LifeArea
     if (area in scores) scores[area]++
   }
 

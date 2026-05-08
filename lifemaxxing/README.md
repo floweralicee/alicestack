@@ -57,7 +57,7 @@ Two views:
 ## Setup
 
 ```bash
-cd lifemaxxing/app
+cd lifemaxxing/ui
 npm install
 cp server/.env.example server/.env
 # Add your AI_GATEWAY_API_KEY to server/.env
@@ -68,11 +68,17 @@ Open http://localhost:5173. Answer 3 setup questions. Start logging.
 
 ---
 
-## Desktop pet (optional)
+## Structure
 
-Hana is the default pet. She burps when you log a win. She lives in the corner of your screen. You can talk to her instead of opening the app.
-
-To enable: choose "desktop pet" during setup. Hana will ask for her own config (she needs the server running).
+```
+lifemaxxing/
+├── skill/              ← the agent skill
+│   ├── SKILL.md        ← win-finding agent instructions
+│   └── win-criteria/   ← what counts as a win per area
+└── ui/                 ← the localhost web app
+    ├── src/            ← React frontend
+    └── server/         ← Hono server + AI extraction
+```
 
 ---
 
@@ -82,4 +88,3 @@ This is one tool in Alice's personal AI stack. See [../README.md](../README.md) 
 
 The win-finding agent logic is adapted from Alice's `agent_wins_instructions_v2.md`.
 The UI is adapted from [win-calendar](https://github.com/floweralicee/win-calendar).
-The desktop pet is Hana from [animini-os](https://github.com/floweralicee/animini-os).
