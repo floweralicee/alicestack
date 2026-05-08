@@ -2,60 +2,56 @@ import { promises as fs, constants as fsConstants } from 'node:fs'
 import path from 'node:path'
 import os from 'node:os'
 
-const CONFIG_DIR = path.join(os.homedir(), '.win-calendar')
+const CONFIG_DIR = path.join(os.homedir(), '.lifemaxxing')
 const CONFIG_PATH = path.join(CONFIG_DIR, 'config.json')
 
-/**
- * Per-user config stored on disk. Intentionally does NOT hold API keys — those
- * are operator-owned and live in `server/.env` (loaded into process.env at
- * bootstrap). See `server/.env.example` for the keys this server expects.
- */
+export type CaptureMode = 'obsidian' | 'textbox' | 'hana'
+export type ReminderMode = 'morning' | 'evening' | 'none'
+
 export type StoredConfig = {
-  obsidianPath: string
-  email: string
+  captureMode: CaptureMode
+  obsidianPath: string        // empty string if not obsidian mode
+  reminderMode: ReminderMode
+  reminderTime: string        // HH:MM local time, e.g. "21:00"
   timezone: string
-  revealHour: number
+  winDefinitions: Record<string, string>   // per-area custom definitions
 }
 
 export type PublicConfig = {
   onboarded: boolean
+  captureMode?: CaptureMode
   obsidianPath?: string
-  email?: string
+  reminderMode?: ReminderMode
+  reminderTime?: string
   timezone?: string
-  revealHour?: number
+  winDefinitions?: Record<string, string>
 }
 
 async function ensureConfigDir(): Promise<void> {
   await fs.mkdir(CONFIG_DIR, { recursive: true, mode: 0o700 })
 }
 
-export async function readConfig(): Promise<StoredConfig | null> {
+export function readConfig(): StoredConfig {
+  // Sync read — called in hot paths
+  const { readFileSync } = require('node:fs')
   try {
-    const raw = await fs.readFile(CONFIG_PATH, 'utf8')
-    const parsed = JSON.parse(raw) as Partial<StoredConfig>
-    if (
-      typeof parsed.obsidianPath !== 'string' ||
-      typeof parsed.email !== 'string' ||
-      typeof parsed.timezone !== 'string'
-    ) {
-      return null
-    }
+    const raw = readFileSync(CONFIG_PATH, 'utf8')
+    return JSON.parse(raw) as StoredConfig
+  } catch {
     return {
-      obsidianPath: parsed.obsidianPath,
-      email: parsed.email,
-      timezone: parsed.timezone,
-      revealHour: typeof parsed.revealHour === 'number' ? parsed.revealHour : 7,
+      captureMode: 'textbox',
+      obsidianPath: '',
+      reminderMode: 'none',
+      reminderTime: '21:00',
+      timezone: 'America/Los_Angeles',
+      winDefinitions: {},
     }
-  } catch (error: unknown) {
-    if ((error as NodeJS.ErrnoException).code === 'ENOENT') return null
-    throw error
   }
 }
 
 export async function writeConfig(config: StoredConfig): Promise<void> {
   await ensureConfigDir()
-  const json = JSON.stringify(config, null, 2)
-  await fs.writeFile(CONFIG_PATH, json, { mode: 0o600 })
+  await fs.writeFile(CONFIG_PATH, JSON.stringify(config, null, 2), { mode: 0o600 })
   await fs.chmod(CONFIG_PATH, 0o600)
 }
 
@@ -63,16 +59,18 @@ export function toPublicConfig(config: StoredConfig | null): PublicConfig {
   if (!config) return { onboarded: false }
   return {
     onboarded: true,
+    captureMode: config.captureMode,
     obsidianPath: config.obsidianPath,
-    email: config.email,
+    reminderMode: config.reminderMode,
+    reminderTime: config.reminderTime,
     timezone: config.timezone,
-    revealHour: config.revealHour,
+    winDefinitions: config.winDefinitions,
   }
 }
 
-export async function validateObsidianPath(candidate: string): Promise<
-  { ok: true } | { ok: false; reason: string }
-> {
+export async function validateObsidianPath(
+  candidate: string
+): Promise<{ ok: true } | { ok: false; reason: string }> {
   try {
     const stat = await fs.stat(candidate)
     if (!stat.isDirectory()) return { ok: false, reason: 'Not a directory' }
