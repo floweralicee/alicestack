@@ -3,9 +3,8 @@ name: lifemaxxing
 version: 1.0.0
 description: |
   Track wins across 5 areas of life — Finance, Career, Personal Growth, Health, Relationships.
-  Reads journal entries (Obsidian, text, or desktop pet), extracts wins per category, 
-  scores each day, and surfaces where you're falling behind before you notice it.
-  Runs locally. No cloud. Works with or without Obsidian.
+  Setup runs in chat (OpenClaw, Hermes, etc.); wins are found and persisted by the agent.
+  The localhost UI is for month/year views and editing profile — not the primary place to log wins.
 license: MIT
 compatibility: claude-code opencode openclaw hermes
 tags:
@@ -34,15 +33,14 @@ The heatmap fills. The streaks build. The gaps get noticed.
 
 ---
 
-## STARTUP — First run
+## STARTUP — Chat install (first run)
 
-On first run, ask three questions in sequence (not all at once):
+**On first install**, run Q1→Q3 **in the chat**, one at a time — not in the web UI. The **localhost app** is only for **viewing** the calendar/heatmap and **editing profile** (same settings). Primary win capture happens through you (the agent).
 
 **Q1: How do you want to capture your wins?**
 ```
-1. I write in Obsidian — give me a folder path
-2. I'll type at the end of the day (text box)
-3. I want the desktop pet (Hana) — she burps when you log a win
+1. I write in Obsidian — give me an absolute path to the vault folder
+2. I'll type at the end of the day — just ask me and I'll write it here
 ```
 
 **Q2: When do you want to be reminded?**
@@ -53,9 +51,64 @@ On first run, ask three questions in sequence (not all at once):
 ```
 
 **Q3: What does winning look like for you in each area?**
-Tell me one sentence per area, or skip any you want defaults for.
+Ask for one short sentence per area (**finance, career, growth, health, relationships**) or let the user skip areas — skipped areas use the **defaults** below.
 
-Save answers to `~/.lifemaxxing/config.json`. Never ask again.
+After answers, **write** `~/.lifemaxxing/config.json` using this shape (all string fields; `winDefinitions` holds **only user overrides**, omit a key to mean “use default sentence”):
+
+```json
+{
+  "captureMode": "obsidian",
+  "obsidianPath": "/absolute/path/to/vault",
+  "reminderMode": "evening",
+  "reminderTime": "21:00",
+  "timezone": "America/Los_Angeles",
+  "winDefinitions": {}
+}
+```
+
+Allowed values: `captureMode`: `"obsidian" | "textbox"`. `reminderMode`: `"morning" | "evening" | "none"`.
+
+**Do not repeat Q1–Q3** after a valid `config.json` exists unless the user explicitly asks to redo setup.
+
+### Default win definitions (when Q3 is skipped or partial)
+
+Use these one-line meanings for any area **not** overridden in `winDefinitions`:
+
+- **finance** — Anything that improves financial awareness, stability, or growth—including small money moves.
+- **career** — Work, shipping, learning on the job, projects, skills, pitches, and showing up professionally.
+- **growth** — Reflection, learning, mindset shifts, naming patterns, journaling, therapy, naming change.
+- **health** — Movement, sleep, food, hydration, going outside, mental health, healthier boundaries.
+- **relationships** — Friends, family, partner, community, self-love, real conversations, showing up for people.
+
+For richer examples per area, read the `win-criteria/*.md` files next to this skill.
+
+---
+
+## PERSISTING WINS (recommended: no dev server required)
+
+**Primary path:** append each win as a markdown block under the user’s timeline file so the localhost UI picks it up.
+
+- **Obsidian vault:** `<vault>/WinCalendar/timeline-life.md`
+- **No vault (textbox mode):** `~/.lifemaxxing/timeline-life.md`
+
+Use the **same shape** as the app expects (matching `appendWinToTimeline` in the repo’s `ui/server/src/obsidian.ts`):
+
+```markdown
+## Mon DD, YYYY — Short human title for the win
+area: career, growth
+**What happened:** One-line or short description (can mirror the title)
+
+---
+
+```
+
+Separate entries with spacing as needed; one `## …` heading per logged win/day block. Prefer **append-only** edits — avoid rewriting the whole file concurrently with the UI server.
+
+---
+
+## OPTIONAL: Local dev server (`POST /api/journal`)
+
+If the user confirms **`npm run dev`** is running inside `lifemaxxing/ui` **and** `AI_GATEWAY_API_KEY` is set in `server/.env`, they may **`POST http://localhost:5173/api/journal`** (Vite proxies to the Hono server) with JSON `{ "text": "journal…", "date": "YYYY-MM-DD" }` so the bundled model extracts wins and appends timeline entries. Do **not** rely on this for core flows — prefer file appends above when the server is off.
 
 ---
 
@@ -89,7 +142,7 @@ Assign each win to one or more areas:
 - Finance, Career, Growth, Health, Relationships
 - A win can belong to multiple areas (e.g. "had a hard conversation with my boss" = Career + Relationships)
 
-Use the win criteria files in `win-criteria/` for examples per category.
+Use `win-criteria/` for nuanced examples — defaults above cover “what counts” at a glance.
 
 ### Step 3 — Write the wins output
 
@@ -154,21 +207,6 @@ Keep it under 100 words. No bullet points. Sound like a person.
 
 ---
 
-## HANA INTEGRATION (desktop pet mode)
-
-When the user types a win into Hana's speech bubble:
-
-1. Send the text to `POST /api/wins/quick` with `{ text, date }`
-2. Server runs win-finding agent on the single entry
-3. Returns classified wins
-4. Hana plays eat animation + burp sound
-5. Win appears on the heatmap immediately
-
-The pet doesn't need to be open for other modes to work.
-Pet is additive — wins from all sources merge into the same heatmap.
-
----
-
 ## RULES
 
 - Never make up wins. Translate what's actually there.
@@ -184,16 +222,12 @@ Pet is additive — wins from all sources merge into the same heatmap.
 
 ```
 lifemaxxing/
-├── SKILL.md                    ← this file
-├── README.md                   ← how to use
-├── win-criteria/
-│   ├── finance.md              ← what counts as a Finance win
-│   ├── career.md
-│   ├── growth.md
-│   ├── health.md
-│   └── relationships.md
-└── app/                        ← the localhost UI + server
-    ├── src/                    ← React frontend (adapted from win-calendar)
-    ├── server/                 ← Hono server
+├── skill/
+│   ├── SKILL.md                       ← this file
+│   ├── default-win-instructions.md    ← default win standard (presented at install)
+│   └── win-criteria/                  ← detailed examples per area
+└── ui/                          ← localhost app (adapted from win-calendar)
+    ├── src/                     ← React (month + year views, Profile)
+    ├── server/                  ← Hono + optional AI extraction
     └── package.json
 ```
