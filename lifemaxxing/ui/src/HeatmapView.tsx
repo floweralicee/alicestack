@@ -29,7 +29,7 @@ const AREA_LABELS: Record<LifeArea, string> = {
 // RGB values for each area color — kept in sync with --ring-* CSS tokens.
 const AREA_RGB: Record<LifeArea, [number, number, number]> = {
   finance:      [184, 151,  58],
-  social:       [184, 112, 106],
+  relationships:[184, 112, 106],
   growth:       [110, 158, 116],
   health:       [ 94, 151, 168],
   career:       [114, 114, 168],
@@ -146,7 +146,7 @@ function buildYearGrid(winsByDate: WinsByDate): {
   let lastMonthSeen = -1
 
   const totalByArea: Record<LifeArea, number> = {
-    finance: 0, social: 0, growth: 0, health: 0, career: 0, unclassified: 0,
+    finance: 0, relationships: 0, growth: 0, health: 0, career: 0, unclassified: 0,
   }
 
   for (let week = 0; week < 52; week++) {
@@ -159,7 +159,7 @@ function buildYearGrid(winsByDate: WinsByDate): {
       const wins = winsByDate[isoDate] ?? []
 
       const countsByArea: Record<LifeArea, number> = {
-        finance: 0, social: 0, growth: 0, health: 0, career: 0, unclassified: 0,
+        finance: 0, relationships: 0, growth: 0, health: 0, career: 0, unclassified: 0,
       }
       for (const win of wins) {
         // A win with multiple areas counts toward each area it belongs to.

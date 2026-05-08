@@ -3,6 +3,7 @@ import { generateText } from 'ai'
 import { createOpenAI } from '@ai-sdk/openai'
 import { readConfigOrDefault } from '../config-store.js'
 import { appendWinToTimeline } from '../obsidian.js'
+import { getEffectiveWinDefinitions } from '../default-win-definitions.js'
 import { LIFEMAXXING_SYSTEM_PROMPT, WIN_EXTRACTION_USER_PROMPT } from '../prompts.js'
 import { getRecentAreaScores } from '../area-scores.js'
 
@@ -51,7 +52,7 @@ journal.post('/api/journal', async (c) => {
           .map(([area]) => area)
       : []
 
-    const parsed = await extractWins(text, today, lowAreas, config.winDefinitions ?? {})
+    const parsed = await extractWins(text, today, lowAreas, getEffectiveWinDefinitions(config.winDefinitions))
 
     // Bug 2 fix: use appendWinToTimeline (our new simple writer) not the PersistedWin writer
     if (parsed.wins.length > 0) {
@@ -88,7 +89,7 @@ journal.post('/api/wins/quick', async (c) => {
     const today = date ?? new Date().toISOString().slice(0, 10)
     const config = readConfigOrDefault()
 
-    const parsed = await extractWins(text, today, [], config.winDefinitions ?? {})
+    const parsed = await extractWins(text, today, [], getEffectiveWinDefinitions(config.winDefinitions))
 
     if (parsed.wins.length > 0) {
       const storagePath = config.obsidianPath || `${process.env.HOME}/.lifemaxxing`

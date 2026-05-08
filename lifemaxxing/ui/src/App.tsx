@@ -2,11 +2,10 @@ import { useCallback, useEffect, useState } from 'react'
 import { Calendar } from './Calendar'
 import { HeatmapView } from './HeatmapView'
 import { WinDetail } from './WinDetail'
-import { JournalComposer } from './JournalComposer'
-import { fetchConfig, fetchWins, type PublicConfig } from './api'
-import type { Win, WinsByDate, LifeArea } from './wins'
+import { Profile } from './Profile'
+import { fetchConfig, fetchWins, patchWinAreas, type PublicConfig } from './api'
+import type { Win, WinsByDate } from './wins'
 
-// Lifemaxxing only exposes month and year views
 type ActiveView = 'month' | 'year'
 
 function addMonths(year: number, monthIndex: number, delta: number) {
@@ -25,8 +24,8 @@ export function App() {
   const [visibleYear, setVisibleYear] = useState(today.getFullYear())
   const [visibleMonth, setVisibleMonth] = useState(today.getMonth())
   const [selectedWin, setSelectedWin] = useState<Win | null>(null)
-  const [isJournalOpen, setIsJournalOpen] = useState(false)
   const [activeView, setActiveView] = useState<ActiveView>('month')
+  const [profileOpen, setProfileOpen] = useState(false)
 
   const reload = useCallback(async () => {
     setLoadState('loading')
@@ -34,11 +33,7 @@ export function App() {
     try {
       const nextConfig = await fetchConfig()
       setConfig(nextConfig)
-      if (nextConfig.onboarded) {
-        setWinsByDate(await fetchWins())
-      } else {
-        setWinsByDate({})
-      }
+      setWinsByDate(await fetchWins())
       setLoadState('ready')
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Failed to contact local server.'
@@ -47,26 +42,33 @@ export function App() {
     }
   }, [])
 
-  useEffect(() => { reload() }, [reload])
+  useEffect(() => {
+    reload()
+  }, [reload])
 
   useEffect(() => {
     if (!selectedWin) return
-    const handleKeyDown = (e: KeyboardEvent) => { if (e.key === 'Escape') setSelectedWin(null) }
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setSelectedWin(null)
+    }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [selectedWin])
 
   const goToPreviousMonth = () => {
     const next = addMonths(visibleYear, visibleMonth, -1)
-    setVisibleYear(next.year); setVisibleMonth(next.monthIndex)
+    setVisibleYear(next.year)
+    setVisibleMonth(next.monthIndex)
   }
   const goToNextMonth = () => {
     const next = addMonths(visibleYear, visibleMonth, 1)
-    setVisibleYear(next.year); setVisibleMonth(next.monthIndex)
+    setVisibleYear(next.year)
+    setVisibleMonth(next.monthIndex)
   }
   const goToToday = () => {
     const now = new Date()
-    setVisibleYear(now.getFullYear()); setVisibleMonth(now.getMonth())
+    setVisibleYear(now.getFullYear())
+    setVisibleMonth(now.getMonth())
   }
 
   if (loadState === 'loading') return <div className="app-status"><p>Loading…</p></div>
@@ -81,33 +83,53 @@ export function App() {
     )
   }
 
-  if (!config?.onboarded) {
-    return <Onboarding onComplete={(c) => { setConfig(c); reload() }} />
-  }
+  if (!config) return null
+
+  const showSetupBanner =
+    !config.onboarded ||
+    (config.captureMode === 'obsidian' && !(config.obsidianPath?.trim()))
 
   return (
     <>
-      {/* View toggle — just month and year */}
       <div className="lm-view-toggle">
         <button
+          type="button"
           className={`lm-view-btn${activeView === 'month' ? ' lm-view-btn--active' : ''}`}
           onClick={() => setActiveView('month')}
         >
           Month
         </button>
         <button
+          type="button"
           className={`lm-view-btn${activeView === 'year' ? ' lm-view-btn--active' : ''}`}
           onClick={() => setActiveView('year')}
         >
           Year
         </button>
         <button
-          className="lm-journal-btn"
-          onClick={() => setIsJournalOpen(true)}
+          type="button"
+          className="lm-profile-open-btn"
+          onClick={() => setProfileOpen(true)}
         >
-          + Log wins
+          Profile
         </button>
       </div>
+
+      {showSetupBanner && (
+        <div className="lm-setup-banner" role="status">
+          <p>
+            <strong>Finish setup in chat:</strong>{' '}
+            Open the lifemaxxing skill in OpenClaw, Hermes, or your assistant and answer Q1–Q3; that writes{' '}
+            <code className="lm-setup-code">~/.lifemaxxing/config.json</code>.
+            Wins are logged through your agent — this view is read-only apart from Profile.
+          </p>
+          {config.onboarded && config.captureMode === 'obsidian' && !(config.obsidianPath?.trim()) ? (
+            <p className="lm-setup-banner-extra">
+              Obsidian vault path is missing. Add your vault folder in Profile or rerun setup with the agent.
+            </p>
+          ) : null}
+        </div>
+      )}
 
       {activeView === 'month' && (
         <Calendar
@@ -126,18 +148,24 @@ export function App() {
       )}
 
       {selectedWin && (
-        <WinDetail win={selectedWin} onClose={() => setSelectedWin(null)} />
+        <WinDetail
+          win={selectedWin}
+          onClose={() => setSelectedWin(null)}
+          onUpdateAreas={async (w, areas) => {
+            await patchWinAreas(w.id, areas)
+            setSelectedWin({ ...w, areas })
+            setWinsByDate(await fetchWins())
+          }}
+        />
       )}
 
-      {isJournalOpen && (
-        <JournalComposer
-          onClose={() => setIsJournalOpen(false)}
-          onSubmitted={reload}
+      {profileOpen && (
+        <Profile
+          config={config}
+          onClose={() => setProfileOpen(false)}
+          onSaved={(c) => setConfig(c)}
         />
       )}
     </>
   )
 }
-
-// ── Simple onboarding ──────────────────────────────────────────────────────────
-import { Onboarding } from './Onboarding'

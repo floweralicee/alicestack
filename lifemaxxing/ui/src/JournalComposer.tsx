@@ -22,10 +22,9 @@ export function JournalComposer({ onClose, onSubmitted }: JournalComposerProps) 
   // Speech recognition (optional — same as win-calendar)
   const [isListening, setIsListening] = useState(false)
   const recognitionRef = useRef<SpeechRecognition | null>(null)
-  const SpeechRecognitionAPI =
+  const SpeechRecognitionAPI: SpeechRecognitionConstructor | undefined =
     typeof window !== 'undefined'
-      ? (window as unknown as { SpeechRecognition?: typeof SpeechRecognition; webkitSpeechRecognition?: typeof SpeechRecognition }).SpeechRecognition ??
-        (window as unknown as { webkitSpeechRecognition?: typeof SpeechRecognition }).webkitSpeechRecognition
+      ? window.SpeechRecognition ?? window.webkitSpeechRecognition
       : undefined
 
   const toggleListening = () => {
@@ -39,11 +38,13 @@ export function JournalComposer({ onClose, onSubmitted }: JournalComposerProps) 
     recognition.continuous = true
     recognition.interimResults = false
     recognition.lang = 'en-US'
-    recognition.onresult = (event) => {
-      const transcript = Array.from(event.results)
-        .slice(event.resultIndex)
-        .map(r => r[0].transcript)
-        .join(' ')
+    recognition.onresult = (event: SpeechRecognitionEvent) => {
+      const list = event.results
+      const chunk: string[] = []
+      for (let i = event.resultIndex; i < list.length; i++) {
+        chunk.push(list[i][0].transcript)
+      }
+      const transcript = chunk.join(' ')
       setText(prev => prev ? `${prev} ${transcript}` : transcript)
     }
     recognition.onend = () => setIsListening(false)

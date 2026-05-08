@@ -12,7 +12,11 @@ export type PublicConfig = {
   reminderMode?: ReminderMode
   reminderTime?: string
   timezone?: string
+  /** Stored overrides (empty values mean “use default”). */
   winDefinitions?: Record<string, string>
+  /** Defaults merged with overrides. */
+  effectiveWinDefinitions: Record<string, string>
+  winDefinitionCustomized: Record<string, boolean>
 }
 
 export type OnboardingPayload = {
@@ -23,6 +27,8 @@ export type OnboardingPayload = {
   timezone?: string
   winDefinitions?: Record<string, string>
 }
+
+export type ProfilePatchPayload = Partial<OnboardingPayload>
 
 // ── Journal / wins ────────────────────────────────────────────────────────────
 
@@ -73,10 +79,28 @@ export async function submitOnboarding(payload: OnboardingPayload): Promise<Publ
   return parseJsonOrThrow<PublicConfig>(res)
 }
 
+export async function patchConfig(payload: ProfilePatchPayload): Promise<PublicConfig> {
+  const res = await fetch('/api/config', {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  })
+  return parseJsonOrThrow<PublicConfig>(res)
+}
+
 export async function fetchWins(): Promise<WinsByDate> {
   const res = await fetch('/api/wins')
   const json = await parseJsonOrThrow<{ winsByDate: WinsByDate }>(res)
   return json.winsByDate ?? {}
+}
+
+export async function patchWinAreas(winId: string, areas: string[]): Promise<void> {
+  const res = await fetch(`/api/wins/${encodeURIComponent(winId)}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ areas }),
+  })
+  await parseJsonOrThrow<{ ok: boolean }>(res)
 }
 
 export async function submitJournal(payload: {

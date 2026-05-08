@@ -2,6 +2,11 @@ import { promises as fs, constants as fsConstants } from 'node:fs'
 import { readFileSync, existsSync } from 'node:fs'
 import path from 'node:path'
 import os from 'node:os'
+import {
+  getEffectiveWinDefinitions,
+  LIFE_AREA_KEYS,
+  type LifeAreaKey,
+} from './default-win-definitions.js'
 
 const CONFIG_DIR = path.join(os.homedir(), '.lifemaxxing')
 const CONFIG_PATH = path.join(CONFIG_DIR, 'config.json')
@@ -25,7 +30,12 @@ export type PublicConfig = {
   reminderMode?: ReminderMode
   reminderTime?: string
   timezone?: string
+  /** User-authored overrides stored on disk; empty string / missing keys use defaults. */
   winDefinitions?: Record<string, string>
+  /** Defaults merged with overrides for prompts and UI. */
+  effectiveWinDefinitions: Record<string, string>
+  /** True when user has saved non-empty custom text for that area. */
+  winDefinitionCustomized: Record<string, boolean>
 }
 
 async function ensureConfigDir(): Promise<void> {
@@ -61,7 +71,25 @@ export async function writeConfig(config: StoredConfig): Promise<void> {
   await fs.chmod(CONFIG_PATH, 0o600)
 }
 
+function winDefinitionCustomizedMap(overrides: Record<string, string>): Record<string, boolean> {
+  return Object.fromEntries(
+    LIFE_AREA_KEYS.map((k) => [k, Boolean(overrides[k]?.trim())]),
+  ) as Record<LifeAreaKey, boolean>
+}
+
+/** Public shape when no `config.json` exists yet (chat-first setup). */
+export function toPublicConfigUnonboarded(): PublicConfig {
+  const overrides: Record<string, string> = {}
+  return {
+    onboarded: false,
+    effectiveWinDefinitions: { ...getEffectiveWinDefinitions(overrides) },
+    winDefinitions: {},
+    winDefinitionCustomized: winDefinitionCustomizedMap(overrides),
+  }
+}
+
 export function toPublicConfig(config: StoredConfig): PublicConfig {
+  const overrides = config.winDefinitions ?? {}
   return {
     onboarded: true,
     captureMode: config.captureMode,
@@ -70,6 +98,8 @@ export function toPublicConfig(config: StoredConfig): PublicConfig {
     reminderTime: config.reminderTime,
     timezone: config.timezone,
     winDefinitions: config.winDefinitions,
+    effectiveWinDefinitions: { ...getEffectiveWinDefinitions(overrides) },
+    winDefinitionCustomized: winDefinitionCustomizedMap(overrides),
   }
 }
 

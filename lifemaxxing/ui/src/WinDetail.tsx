@@ -4,7 +4,7 @@ import { LIFE_AREAS } from './wins'
 
 const AREA_LABELS: Record<LifeArea, string> = {
   finance: 'Finance',
-  social: 'Social',
+  relationships: 'Relationships',
   growth: 'Growth',
   health: 'Health',
   career: 'Career',

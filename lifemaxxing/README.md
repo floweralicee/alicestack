@@ -22,13 +22,11 @@ Every win = 1 point. The heatmap fills. The gaps become visible.
 
 ## How to log wins
 
-**3 ways — pick one at setup:**
+**Primary path:** Through your **agent** (OpenClaw, Hermes, etc.) using the **`lifemaxxing/skill`** instructions — you answer setup in chat, paste or describe your day, and the agent finds wins and appends them to your timeline markdown (Obsidian vault or `~/.lifemaxxing`).
 
-1. **Obsidian** — point it at your journal folder. Agent reads nightly and finds wins.
-2. **End-of-day text box** — write freely. Agent extracts the wins for you.
-3. **Hana desktop pet** — she lives on your screen. Type a win → she burps. Win logged.
+Optional: run the **`ui`** dev server so **`POST /api/journal`** can extract wins via the gateway (**`AI_GATEWAY_API_KEY`** in `server/.env`). Prefer file-based appends when the server is off.
 
-You don't need to label wins yourself. The agent finds them in whatever you wrote.
+The **browser UI does not replace chat logging** — it is for viewing the calendar/heatmap and opening **Profile** to adjust the same settings the skill wrote (`~/.lifemaxxing/config.json`).
 
 ---
 
@@ -46,27 +44,33 @@ When an area hasn't had a win in 5+ days, your next journal prompt includes a ge
 
 ## The UI
 
-Two views:
+**Month view** — calendar grid, colored area dots each day (see [win-calendar](https://github.com/floweralicee/win-calendar)).
 
-**Month view** — calendar grid, colored area dots on each day, click any day to see wins.
+**Year view** — GitHub-style heatmap per area.
 
-**Year view** — GitHub-style heatmap per area, 52 weeks across. This is where you see the shape of your year.
+Use **Profile** in the UI to tweak capture mode, reminders, timezone, vault path (Obsidian mode), and per-area win definitions once the skill has created `config.json`.
 
 ---
 
 ## Setup
 
+1. **Skill / chat onboarding** — With the agent, follow **Q1→Q3** in [`skill/SKILL.md`](skill/SKILL.md) so `~/.lifemaxxing/config.json` exists (see the skill for default win meanings and timeline paths).
+
+2. **Optional: view dashboard locally**
+
+From the repo root (`lifemaxxing/`):
+
 ```bash
-cd lifemaxxing/ui
+cd lifemaxxing
 npm install
-cp server/.env.example server/.env
-# Add your AI_GATEWAY_API_KEY to server/.env
+cp ui/server/.env.example ui/server/.env
+# For optional AI extraction routes only: add AI_GATEWAY_API_KEY to ui/server/.env
 npm run dev
 ```
 
-Open http://localhost:5173. Answer 3 setup questions. Start logging.
+Or only inside **`lifemaxxing/ui`**: install there, copy `server/.env.example`, then `npm run dev`.
 
----
+Open http://localhost:5173 — use **Profile** to edit saved answers; wins still flow from the agent or optional API routes as described in the skill.
 
 ## Structure
 
