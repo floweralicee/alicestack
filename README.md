@@ -20,7 +20,7 @@ Two opinionated skills for any AI agent. One that pushes back on what you're rat
 
 | Skill | Mode | What it does |
 |-------|------|-------------|
-| `truth-mirror` | Honest friend who read your journal | Builds a profile of who you actually are from your conversation history. Names your patterns before you finish describing the situation. Calls out what you're rationalizing as strategy when it's actually fear. Makes the fear specific so it's smaller. |
+| `life-coach` | Honest friend who read your journal | Builds a profile of who you actually are from your conversation history. Names your patterns before you finish describing the situation. Calls out what you're rationalizing as strategy when it's actually fear. Makes the fear specific so it's smaller. |
 | `lifemaxxing` | Personal analyst who tracks you, not the market | Reads whatever you wrote today and finds the wins you forgot. Scores 5 life areas every day. Tracks your growth against your own baseline — not the founder with more funding. Tells you when an area goes quiet before it breaks. |
 
 ---
@@ -40,11 +40,11 @@ Two opinionated skills for any AI agent. One that pushes back on what you're rat
 
 ## What's in here
 
-### `truth-mirror/`
+### `life-coach/`
 
 A life mentor skill. Builds a God's-eye view of who you are from your conversation history — or your journal if you keep one. Names your patterns. Pushes back. Runs a game layer so showing up feels like building something, not maintaining willpower.
 
-[Read more →](truth-mirror/README.md)
+[Read more →](life-coach/README.md)
 
 ### `lifemaxxing/`
 

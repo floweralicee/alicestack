@@ -2,7 +2,7 @@
 
 Track wins across every area of your life. See where you're growing. Get called out when you're not.
 
-Not a task manager. Not a habit tracker. A wins tracker — because you're already doing more than you think, and no one is keeping score.
+Not a task manager. Not a habit tracker. A daily wins tracker — because you're already doing more than you think, and no one is keeping score.
 
 ---
 
@@ -22,26 +22,39 @@ Every win = 1 point. The heatmap fills. The gaps become visible.
 
 ## How it works
 
-**The agent finds wins for you.**
-
-You don't need to label anything a win. You write — journal entry, quick note, voice memo — and the agent reads it and translates it into wins across the 5 areas.
+The agent reads whatever you wrote — journal entry, quick note — and finds the wins you forgot about.
 
 "Made dinner" → Health win.
 "Replied to that email I'd been avoiding" → Career + Growth win.
 "Cried about something and felt better" → Health win.
-"Went to the boardwalk even though I didn't feel like it" → Health + Relationships.
 
-The win doesn't need to be dramatic. It doesn't need to be intentional. It doesn't need to be finished.
+The win doesn't need to be dramatic. Doesn't need to be intentional. Doesn't need to be finished.
 
-**Daily, not weekly.** Every day is its own record. A quiet day still has wins. The point is to catch what was real.
+**Daily, not weekly.** Every day is its own record. A quiet day still has wins.
 
-**Low area alerts.** When any area hasn't had a win in 5+ days, your next journal prompt includes a gentle nudge: *"Did anything happen there this week you might have missed?"* Not guilt. Just curiosity.
+**Low area alerts.** When any area hasn't had a win in 5+ days, your next journal prompt includes a gentle nudge. Not guilt. Just: *"Did anything happen there you might have missed?"*
+
+---
+
+## Works with life-coach
+
+lifemaxxing reads from `~/.alicestack/game-state.md` (written by life-coach) to:
+- Connect quiet areas to active Villager patterns in the morning brief
+- Flag when wins look like pattern behavior rather than real progress
+- Include arc progress in the daily summary
+
+lifemaxxing writes to `~/.alicestack/wins/timeline.md` so life-coach can:
+- Pull area scores to surface what's going quiet
+- Find evidence of past wins when the user needs proof they can do something
+- Connect real life data to the patterns it sees
+
+[See shared state schema →](../shared/state-schema.md)
 
 ---
 
 ## On first install
 
-The skill shows you the default win standard — what counts as a win for each area — and asks if it feels right for you. You can accept the defaults or change any area to match how you actually live. The standard is saved once and used from then on.
+The skill shows you the default win standard — what counts as a win for each area — and asks if it feels right. Accept the defaults or change any area. Saved once, used from then on.
 
 [See the defaults →](skill/default-win-instructions.md)
 
@@ -51,35 +64,25 @@ The skill shows you the default win standard — what counts as a win for each a
 
 Two views at http://localhost:5173:
 
-**Month view** — calendar grid with colored area dots on each day. Click any day to see the wins.
+**Month view** — calendar grid with colored area dots on each day.
 
-**Year view** — GitHub-style heatmap per life area, 52 weeks across. This is where you see the shape of your year.
+**Year view** — GitHub-style heatmap per life area. This is where you see the shape of your year.
 
 ---
 
 ## Setup
 
-### Step 1 — Skill onboarding (chat)
-
-Load the skill in any agent (OpenClaw, Claude Code, Hermes, etc.):
-
 ```
 Load the skill at lifemaxxing/skill/SKILL.md
 ```
 
-Answer Q1–Q3 in chat. The skill saves `~/.lifemaxxing/config.json` and you're set.
+Follow Q1–Q3 in chat. Saves to `~/.lifemaxxing/config.json`. Done.
 
-### Step 2 — Optional: run the UI locally
-
+**Optional: run the UI locally**
 ```bash
 cd lifemaxxing/ui
-npm install
-cp server/.env.example server/.env
-# Optional: add AI_GATEWAY_API_KEY for server-side win extraction
-npm run dev
+npm install && npm run dev
 ```
-
-Open http://localhost:5173 to see your calendar and heatmap.
 
 ---
 
@@ -88,22 +91,16 @@ Open http://localhost:5173 to see your calendar and heatmap.
 ```
 lifemaxxing/
 ├── skill/
-│   ├── SKILL.md                      ← agent instructions (load this)
-│   ├── default-win-instructions.md   ← default win standard, shown at install
+│   ├── SKILL.md                      ← load this
+│   ├── default-win-instructions.md   ← defaults shown at install
 │   └── win-criteria/                 ← detailed examples per area
-│       ├── finance.md
-│       ├── career.md
-│       ├── growth.md
-│       ├── health.md
-│       └── relationships.md
 └── ui/
-    ├── src/                          ← React frontend (month + year views)
-    └── server/                       ← Hono server + optional AI extraction
+    ├── src/                          ← React (month + year views)
+    └── server/                       ← Hono + AI extraction
 ```
 
 ---
 
 *Part of [alicestack](../README.md)*
 
-The win-finding agent logic is adapted from Alice's `agent_wins_instructions_v2.md`.
-The UI is adapted from [win-calendar](https://github.com/floweralicee/win-calendar).
+UI adapted from [win-calendar](https://github.com/floweralicee/win-calendar).

@@ -188,22 +188,34 @@ Example prompts per area:
 
 ---
 
+## CROSS-SKILL: READING FROM life-coach
+
+On every journal run, before writing scores, read `~/.alicestack/game-state.md` if it exists.
+
+**Use it to:**
+1. Read active Villager names — if a Villager is active and an area is quiet, name the connection:
+   > "🧹 The System Builder has been active 3x this week. Career wins this week: 0. You built things. Did anything ship?"
+2. Read the active arc — check if today's wins are connected to the sprint goal. If not, note it gently.
+3. Feed the morning brief with the full picture: wins + game state + arc in one message.
+
+**Write daily wins to `~/.alicestack/wins/timeline.md`** after every journal run so life-coach can read them.
+
+---
+
 ## DAILY BRIEF (optional — morning mode)
 
-If morning reminders are on, generate a brief before the user starts their day:
+If morning reminders are on, read BOTH `~/.alicestack/wins/timeline.md` (yesterday's scores) AND `~/.alicestack/game-state.md` (Villager status, arc) and merge into one brief:
 
 ```
-Good morning.
-
-Yesterday's score: [total] wins
-[area]: [N] [area]: [N] [area]: [N] [area]: [N] [area]: [N]
-
-[If any area is low]: [area] has been quiet. One small thing today?
-
-Your streak: [N] days
+Day [N] of [arc name].
+Yesterday: [total] wins — [area]: [N], [area]: [N], [area]: [N]
+[Area] on a [N]-day streak.
+[Villager] was quiet ([N] days — keep going).
+One area dark: [area] — [N] days. Did anything happen there?
+Today's quest: [from game-state if set]
 ```
 
-Keep it under 100 words. No bullet points. Sound like a person.
+Keep it under 120 words. No bullet points. Sound like a person who has been paying attention.
 
 ---
 
