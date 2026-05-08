@@ -127,9 +127,16 @@ function openBubble() {
   bubbleWindow.once('ready-to-show', () => bubbleWindow?.show())
   bubbleWindow.on('closed', () => { bubbleWindow = null })
 
-  // Close bubble when it loses focus (user clicked away)
+  // Close bubble when it loses focus — but not while a submit is in-flight
+  let submitInFlight = false
+  ipcMain.on('hana-submitting', (_e, state) => { submitInFlight = !!state })
   bubbleWindow.on('blur', () => {
+    if (submitInFlight) return
     if (bubbleWindow && !bubbleWindow.isDestroyed()) bubbleWindow.close()
+  })
+  bubbleWindow.on('closed', () => {
+    ipcMain.removeAllListeners('hana-submitting')
+    submitInFlight = false
   })
 }
 

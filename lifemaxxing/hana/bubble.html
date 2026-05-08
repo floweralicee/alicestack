@@ -183,8 +183,10 @@
       submitBtn.disabled = true
       submitBtn.textContent = '…'
       errorMsg.style.display = 'none'
+      window.hana.setSubmitting(true)  // tell main.js not to close on blur
 
       const result = await window.hana.submitWin(text)
+      window.hana.setSubmitting(false)
 
       if (!result.ok) {
         errorMsg.textContent = result.error ?? 'Could not reach the server.'

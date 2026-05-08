@@ -51,10 +51,24 @@ For lowAreaAlert: if any area has been missing for 5+ days (you won't know this 
 Always return valid parseable JSON. Nothing outside the JSON object.
 `.trim()
 
-export const WIN_EXTRACTION_USER_PROMPT = (journalText: string, date: string, lowAreas?: string[]) => `
-Today is ${date}.
+export const WIN_EXTRACTION_USER_PROMPT = (
+  journalText: string,
+  date: string,
+  lowAreas?: string[],
+  winDefinitions?: Record<string, string>,
+) => {
+  const defsSection = winDefinitions && Object.keys(winDefinitions).length > 0
+    ? `\nThis person's personal definition of winning per area:\n${Object.entries(winDefinitions)
+        .map(([area, def]) => `- ${area}: ${def}`)
+        .join('\n')}\n`
+    : ''
 
-${lowAreas && lowAreas.length > 0 ? `Note: these areas have had no wins recently: ${lowAreas.join(', ')}. If anything in the journal touches them, catch it.` : ''}
+  const lowSection = lowAreas && lowAreas.length > 0
+    ? `\nNote: these areas have had no wins recently: ${lowAreas.join(', ')}. If anything in the journal touches them, catch it.`
+    : ''
+
+  return `Today is ${date}.
+${defsSection}${lowSection}
 
 Here is what the user wrote:
 
@@ -62,5 +76,5 @@ Here is what the user wrote:
 ${journalText}
 ---
 
-Find every win. Classify each into one or more of the 5 areas. Return the JSON.
-`.trim()
+Find every win. Classify each into one or more of the 5 areas. Return the JSON.`.trim()
+}

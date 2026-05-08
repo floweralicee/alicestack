@@ -1,4 +1,5 @@
 import { promises as fs, constants as fsConstants } from 'node:fs'
+import { readFileSync, existsSync } from 'node:fs'
 import path from 'node:path'
 import os from 'node:os'
 
@@ -10,11 +11,11 @@ export type ReminderMode = 'morning' | 'evening' | 'none'
 
 export type StoredConfig = {
   captureMode: CaptureMode
-  obsidianPath: string        // empty string if not obsidian mode
+  obsidianPath: string
   reminderMode: ReminderMode
-  reminderTime: string        // HH:MM local time, e.g. "21:00"
+  reminderTime: string
   timezone: string
-  winDefinitions: Record<string, string>   // per-area custom definitions
+  winDefinitions: Record<string, string>
 }
 
 export type PublicConfig = {
@@ -31,21 +32,26 @@ async function ensureConfigDir(): Promise<void> {
   await fs.mkdir(CONFIG_DIR, { recursive: true, mode: 0o700 })
 }
 
-export function readConfig(): StoredConfig {
-  // Sync read — called in hot paths
-  const { readFileSync } = require('node:fs')
+/** Sync read for hot paths — returns null if config doesn't exist yet */
+export function readConfig(): StoredConfig | null {
+  if (!existsSync(CONFIG_PATH)) return null
   try {
     const raw = readFileSync(CONFIG_PATH, 'utf8')
     return JSON.parse(raw) as StoredConfig
   } catch {
-    return {
-      captureMode: 'textbox',
-      obsidianPath: '',
-      reminderMode: 'none',
-      reminderTime: '21:00',
-      timezone: 'America/Los_Angeles',
-      winDefinitions: {},
-    }
+    return null
+  }
+}
+
+/** Sync read with fallback defaults — never returns null, for use after onboarding */
+export function readConfigOrDefault(): StoredConfig {
+  return readConfig() ?? {
+    captureMode: 'textbox',
+    obsidianPath: '',
+    reminderMode: 'none',
+    reminderTime: '21:00',
+    timezone: 'America/Los_Angeles',
+    winDefinitions: {},
   }
 }
 
@@ -55,8 +61,7 @@ export async function writeConfig(config: StoredConfig): Promise<void> {
   await fs.chmod(CONFIG_PATH, 0o600)
 }
 
-export function toPublicConfig(config: StoredConfig | null): PublicConfig {
-  if (!config) return { onboarded: false }
+export function toPublicConfig(config: StoredConfig): PublicConfig {
   return {
     onboarded: true,
     captureMode: config.captureMode,
@@ -69,17 +74,17 @@ export function toPublicConfig(config: StoredConfig | null): PublicConfig {
 }
 
 export async function validateObsidianPath(
-  candidate: string
+  candidate: string,
 ): Promise<{ ok: true } | { ok: false; reason: string }> {
   try {
     const stat = await fs.stat(candidate)
     if (!stat.isDirectory()) return { ok: false, reason: 'Not a directory' }
     await fs.access(candidate, fsConstants.W_OK)
     return { ok: true }
-  } catch (error: unknown) {
-    const err = error as NodeJS.ErrnoException
-    if (err.code === 'ENOENT') return { ok: false, reason: 'Folder does not exist' }
-    if (err.code === 'EACCES') return { ok: false, reason: 'Folder is not writable' }
-    return { ok: false, reason: err.message ?? 'Unknown error' }
+  } catch (err: unknown) {
+    const e = err as NodeJS.ErrnoException
+    if (e.code === 'ENOENT') return { ok: false, reason: 'Folder does not exist' }
+    if (e.code === 'EACCES') return { ok: false, reason: 'Folder is not writable' }
+    return { ok: false, reason: e.message ?? 'Unknown error' }
   }
 }

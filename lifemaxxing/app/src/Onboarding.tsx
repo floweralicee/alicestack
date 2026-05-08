@@ -34,8 +34,9 @@ export function Onboarding({ onComplete }: OnboardingProps) {
   }
 
   // Step 2 — When do you want to be reminded?
-  const handleStep2 = (mode: ReminderMode) => {
+  const handleStep2 = (mode: ReminderMode, time: string) => {
     setReminderMode(mode)
+    setReminderTime(time)
     setStep(3)
   }
 
@@ -133,8 +134,8 @@ export function Onboarding({ onComplete }: OnboardingProps) {
           </div>
         )}
 
-        {/* ── Obsidian path input (shown after selecting obsidian) ─────────── */}
-        {step === 2 && captureMode === 'obsidian' && (
+        {/* ── Step 1.5: Obsidian path (sub-step before reminder) ───────────── */}
+        {step === 2 && captureMode === 'obsidian' && !obsidianPath.trim() && (
           <div className="lm-onboarding-step">
             <p className="lm-onboarding-eyebrow">Step 1 of 3 — Obsidian path</p>
             <h1 className="lm-onboarding-title">Where's your journal?</h1>
@@ -153,6 +154,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                 autoCapitalize="off"
                 autoCorrect="off"
                 spellCheck={false}
+                autoFocus
               />
               <span className="lm-field-hint">We'll read journal entries from this folder. Nothing is deleted or modified.</span>
             </label>
@@ -161,8 +163,9 @@ export function Onboarding({ onComplete }: OnboardingProps) {
               <button className="lm-btn lm-btn--ghost" onClick={() => setStep(1)}>Back</button>
               <button
                 className="lm-btn lm-btn--primary"
-                onClick={() => setStep(2)}
+                onClick={() => { /* path entered, re-render will show reminder step */ }}
                 disabled={!obsidianPath.trim()}
+                style={{ opacity: obsidianPath.trim() ? 1 : 0.4 }}
               >
                 Continue
               </button>
@@ -171,17 +174,13 @@ export function Onboarding({ onComplete }: OnboardingProps) {
         )}
 
         {/* ── Step 2: Reminder preference ──────────────────────────────────── */}
-        {step === 2 && captureMode !== 'obsidian' && (
+        {step === 2 && (captureMode !== 'obsidian' || obsidianPath.trim()) && (
           <StepReminder
-            onBack={() => setStep(1)}
-            onNext={(mode, time) => { setReminderMode(mode); setReminderTime(time); setStep(3) }}
-          />
-        )}
-
-        {step === 2 && captureMode === 'obsidian' && obsidianPath.trim() && (
-          <StepReminder
-            onBack={() => setStep(1)}
-            onNext={(mode, time) => { setReminderMode(mode); setReminderTime(time); setStep(3) }}
+            onBack={() => {
+              if (captureMode === 'obsidian') setObsidianPath('')
+              else setStep(1)
+            }}
+            onNext={handleStep2}
           />
         )}
 

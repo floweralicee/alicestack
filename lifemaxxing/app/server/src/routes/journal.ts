@@ -1,69 +1,77 @@
 import { Hono } from 'hono'
 import { generateText } from 'ai'
 import { createOpenAI } from '@ai-sdk/openai'
-import { readConfig } from '../config-store.js'
-import { appendWinsToTimeline } from '../obsidian.js'
+import { readConfigOrDefault } from '../config-store.js'
+import { appendWinToTimeline } from '../obsidian.js'
 import { LIFEMAXXING_SYSTEM_PROMPT, WIN_EXTRACTION_USER_PROMPT } from '../prompts.js'
 import { getRecentAreaScores } from '../area-scores.js'
 
 const journal = new Hono()
 
+type ExtractedWin = { title: string; areas: string[] }
+type ExtractedResult = {
+  date: string
+  wins: ExtractedWin[]
+  scores: Record<string, number>
+  lowAreaAlert: { area: string; daysSince: number; prompt: string } | null
+}
+
+async function extractWins(
+  text: string,
+  date: string,
+  lowAreas: string[],
+  winDefinitions: Record<string, string>,
+): Promise<ExtractedResult> {
+  const openai = createOpenAI({ apiKey: process.env.AI_GATEWAY_API_KEY ?? '' })
+  const { text: result } = await generateText({
+    model: openai('anthropic/claude-haiku-4-5'),
+    system: LIFEMAXXING_SYSTEM_PROMPT,
+    prompt: WIN_EXTRACTION_USER_PROMPT(text, date, lowAreas, winDefinitions),
+  })
+  try {
+    return JSON.parse(result) as ExtractedResult
+  } catch {
+    return { date, wins: [], scores: { finance:0,career:0,growth:0,health:0,relationships:0,total:0 }, lowAreaAlert: null }
+  }
+}
+
+// POST /api/journal — end-of-day or morning journal entry
 journal.post('/api/journal', async (c) => {
   try {
     const { text, date } = await c.req.json<{ text: string; date?: string }>()
     if (!text?.trim()) return c.json({ error: 'No text provided' }, 400)
 
     const today = date ?? new Date().toISOString().slice(0, 10)
-    const config = readConfig()
+    const config = readConfigOrDefault()
 
-    // Find areas with no wins in the last 5 days
-    const recentScores = await getRecentAreaScores(config.obsidianPath, 5)
-    const lowAreas = Object.entries(recentScores)
-      .filter(([, score]) => score === 0)
-      .map(([area]) => area)
+    // Bug 4 fix: only check area scores if obsidianPath is set and mode is obsidian
+    const lowAreas = config.captureMode === 'obsidian' && config.obsidianPath
+      ? Object.entries(await getRecentAreaScores(config.obsidianPath, 5))
+          .filter(([, score]) => score === 0)
+          .map(([area]) => area)
+      : []
 
-    // Call Claude to extract wins
-    const openai = createOpenAI({ apiKey: process.env.AI_GATEWAY_API_KEY ?? '' })
-    const { text: result } = await generateText({
-      model: openai('anthropic/claude-haiku-4-5'),
-      system: LIFEMAXXING_SYSTEM_PROMPT,
-      prompt: WIN_EXTRACTION_USER_PROMPT(text, today, lowAreas),
-    })
+    const parsed = await extractWins(text, today, lowAreas, config.winDefinitions ?? {})
 
-    let parsed: {
-      date: string
-      wins: { title: string; areas: string[] }[]
-      scores: Record<string, number>
-      lowAreaAlert: { area: string; daysSince: number; prompt: string } | null
-    }
-
-    try {
-      parsed = JSON.parse(result)
-    } catch {
-      return c.json({ error: 'Failed to parse wins from AI response', raw: result }, 500)
-    }
-
-    // Append wins to timeline-life.md
-    const winCount = parsed.wins.length
-    if (winCount > 0 && config.obsidianPath) {
+    // Bug 2 fix: use appendWinToTimeline (our new simple writer) not the PersistedWin writer
+    if (parsed.wins.length > 0) {
+      const storagePath = config.obsidianPath || `${process.env.HOME}/.lifemaxxing`
       for (const win of parsed.wins) {
-        const primaryArea = win.areas[0] ?? 'growth'
-        await appendWinsToTimeline(config.obsidianPath, {
+        await appendWinToTimeline(storagePath, {
           date: parsed.date,
           title: win.title,
-          area: primaryArea,
-          body: `**Areas:** ${win.areas.join(', ')}`,
-        })
+          areas: win.areas,
+          body: win.title,  // body = title for simple entries
+        }).catch(err => console.error('[appendWin]', err))
       }
     }
 
+    const winsFound = parsed.wins.length
     return c.json({
-      winsFound: winCount,
+      winsFound,
       scores: parsed.scores,
       lowAreaAlert: parsed.lowAreaAlert,
-      message: winCount === 1
-        ? `Found 1 win today.`
-        : `Found ${winCount} wins today.`,
+      message: winsFound === 1 ? 'Found 1 win today.' : `Found ${winsFound} wins today.`,
     })
   } catch (err) {
     console.error('[journal]', err)
@@ -71,33 +79,26 @@ journal.post('/api/journal', async (c) => {
   }
 })
 
-// Quick win from Hana pet — single text entry
+// POST /api/wins/quick — single win from Hana pet
 journal.post('/api/wins/quick', async (c) => {
   try {
     const { text, date } = await c.req.json<{ text: string; date?: string }>()
     if (!text?.trim()) return c.json({ error: 'No text provided' }, 400)
 
     const today = date ?? new Date().toISOString().slice(0, 10)
-    const config = readConfig()
+    const config = readConfigOrDefault()
 
-    const openai = createOpenAI({ apiKey: process.env.AI_GATEWAY_API_KEY ?? '' })
-    const { text: result } = await generateText({
-      model: openai('anthropic/claude-haiku-4-5'),
-      system: LIFEMAXXING_SYSTEM_PROMPT,
-      prompt: WIN_EXTRACTION_USER_PROMPT(text, today),
-    })
+    const parsed = await extractWins(text, today, [], config.winDefinitions ?? {})
 
-    let parsed: { wins: { title: string; areas: string[] }[]; scores: Record<string, number> }
-    try { parsed = JSON.parse(result) } catch { parsed = { wins: [], scores: {} } }
-
-    if (parsed.wins.length > 0 && config.obsidianPath) {
+    if (parsed.wins.length > 0) {
+      const storagePath = config.obsidianPath || `${process.env.HOME}/.lifemaxxing`
       for (const win of parsed.wins) {
-        await appendWinsToTimeline(config.obsidianPath, {
+        await appendWinToTimeline(storagePath, {
           date: today,
           title: win.title,
-          area: win.areas[0] ?? 'growth',
-          body: `**Areas:** ${win.areas.join(', ')}`,
-        })
+          areas: win.areas,
+          body: win.title,
+        }).catch(err => console.error('[appendWin/quick]', err))
       }
     }
 
