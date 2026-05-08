@@ -53,6 +53,16 @@ Both skills share the same memory. `truth-teller` reads your wins history. `chee
 
 ---
 
+## Just want to try it now?
+
+No setup. No files. Paste the quick prompt into ChatGPT or Claude and start talking.
+
+[→ quick-prompt.md](quick-prompt.md)
+
+It figures out whether you need the truth teller or the cheerleader based on what you share. Works in any chat.
+
+---
+
 ## What's in here
 
 ### `truth-teller/` — your truth teller
