@@ -1,4 +1,4 @@
-# alicefriends
+# alice-friends
 
 **Everyone needs two types of friends.**
 
