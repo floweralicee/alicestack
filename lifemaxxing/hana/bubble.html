@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hana — log a win</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 320px;
+      height: 180px;
+      overflow: hidden;
+      background: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .bubble {
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.14), 0 1px 4px rgba(0,0,0,0.08);
+      padding: 14px 14px 12px;
+      width: 320px;
+      height: 180px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .bubble-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .bubble-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #4c4f69;
+      letter-spacing: 0.01em;
+    }
+
+    .bubble-close {
+      background: none;
+      border: none;
+      font-size: 16px;
+      color: #9ca0b0;
+      cursor: pointer;
+      padding: 0 2px;
+      line-height: 1;
+    }
+
+    .bubble-close:hover { color: #4c4f69; }
+
+    textarea {
+      flex: 1;
+      border: 1px solid #dce0e8;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-family: inherit;
+      font-size: 13px;
+      color: #4c4f69;
+      resize: none;
+      outline: none;
+      background: #f9fafb;
+      line-height: 1.5;
+    }
+
+    textarea:focus { border-color: #7287fd; background: #fff; }
+
+    textarea::placeholder { color: #9ca0b0; }
+
+    .bubble-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    button.submit {
+      padding: 6px 16px;
+      border-radius: 14px;
+      border: none;
+      background: #4c4f69;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.02em;
+      transition: opacity 0.12s;
+    }
+
+    button.submit:hover { opacity: 0.85; }
+    button.submit:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .bubble-feedback {
+      font-size: 12px;
+      color: #40a02b;
+      font-weight: 500;
+      text-align: right;
+    }
+
+    .bubble-error {
+      font-size: 11px;
+      color: #d20f39;
+      text-align: right;
+    }
+
+    /* Area pills shown after submit */
+    .win-areas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .win-area-pill {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 10px;
+      letter-spacing: 0.03em;
+    }
+
+    .pill-finance      { background: #fef3c7; color: #92400e; }
+    .pill-career       { background: #ede9fe; color: #5b21b6; }
+    .pill-growth       { background: #dcfce7; color: #166534; }
+    .pill-health       { background: #cffafe; color: #155e75; }
+    .pill-relationships { background: #fce7f3; color: #9d174d; }
+  </style>
+</head>
+<body>
+  <div class="bubble">
+    <div class="bubble-header">
+      <span class="bubble-title">What's a win today? 🌿</span>
+      <button class="bubble-close" id="closeBtn" aria-label="Close">×</button>
+    </div>
+
+    <textarea
+      id="winInput"
+      placeholder="Went for a walk. Sent that email. Called my mom back..."
+      maxlength="500"
+      autofocus
+    ></textarea>
+
+    <div class="bubble-actions">
+      <span id="feedback" class="bubble-feedback" style="display:none"></span>
+      <span id="errorMsg" class="bubble-error" style="display:none"></span>
+      <button class="submit" id="submitBtn">Log it →</button>
+    </div>
+  </div>
+
+  <script>
+    const input = document.getElementById('winInput')
+    const submitBtn = document.getElementById('submitBtn')
+    const closeBtn = document.getElementById('closeBtn')
+    const feedback = document.getElementById('feedback')
+    const errorMsg = document.getElementById('errorMsg')
+
+    const AREA_LABELS = {
+      finance: '💰 Finance',
+      career: '🚀 Career',
+      growth: '🌱 Growth',
+      health: '🏃 Health',
+      relationships: '👥 Relationships',
+    }
+
+    closeBtn.addEventListener('click', () => window.hana.closeBubble())
+
+    // Submit on Enter (Shift+Enter = newline)
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault()
+        submitWin()
+      }
+      if (e.key === 'Escape') window.hana.closeBubble()
+    })
+
+    submitBtn.addEventListener('click', submitWin)
+
+    async function submitWin() {
+      const text = input.value.trim()
+      if (!text) return
+
+      submitBtn.disabled = true
+      submitBtn.textContent = '…'
+      errorMsg.style.display = 'none'
+
+      const result = await window.hana.submitWin(text)
+
+      if (!result.ok) {
+        errorMsg.textContent = result.error ?? 'Could not reach the server.'
+        errorMsg.style.display = 'block'
+        submitBtn.disabled = false
+        submitBtn.textContent = 'Log it →'
+        return
+      }
+
+      // Show wins found
+      const wins = result.wins ?? []
+      const areas = [...new Set(wins.flatMap(w => w.areas ?? []))]
+
+      feedback.style.display = 'block'
+      feedback.textContent = wins.length === 1
+        ? `1 win logged ✓`
+        : `${wins.length} wins logged ✓`
+
+      // Replace textarea with area pills
+      input.style.display = 'none'
+      submitBtn.style.display = 'none'
+
+      if (areas.length > 0) {
+        const pillsDiv = document.createElement('div')
+        pillsDiv.className = 'win-areas'
+        for (const area of areas) {
+          const pill = document.createElement('span')
+          pill.className = `win-area-pill pill-${area}`
+          pill.textContent = AREA_LABELS[area] ?? area
+          pillsDiv.appendChild(pill)
+        }
+        feedback.after(pillsDiv)
+      }
+
+      // Auto-close after 2s
+      setTimeout(() => window.hana.closeBubble(), 2000)
+    }
+
+    // Focus textarea on open
+    setTimeout(() => input.focus(), 80)
+  </script>
+</body>
+</html>
