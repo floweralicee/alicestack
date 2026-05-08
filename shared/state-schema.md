@@ -1,4 +1,4 @@
-# alicestack — shared state schema
+# alicefriends — shared state schema
 
 ## Mode-switching protocol
 
@@ -6,8 +6,8 @@ Both skills share memory. Together they decide when to be the truth teller and w
 
 | Signal | Who leads | What happens |
 |--------|-----------|-------------|
-| User sounds defeated / sparse wins last 7 days | Cheerleader (lifemaxxing) | Pull win evidence first. Show receipts before any feedback or pushback. |
-| Same Villager pattern appearing again | Truth teller (life-coach) | Name the loop. Ask the question the user is avoiding. |
+| User sounds defeated / sparse wins last 7 days | Cheerleader (cheerleader) | Pull win evidence first. Show receipts before any feedback or pushback. |
+| Same Villager pattern appearing again | Truth teller (truth-teller) | Name the loop. Ask the question the user is avoiding. |
 | Area quiet 5+ days + Villager active | Both | Life-coach names the connection. Lifemaxxing finds any wins that were there anyway. |
 | User explicitly asks for pushback | Truth teller | Full pattern audit. No softening. |
 | User says they're struggling | Cheerleader | Lead with wins. Hold the hard questions for later. |
@@ -17,21 +17,21 @@ Both skills share memory. Together they decide when to be the truth teller and w
 
 ---
 
-Both `life-coach` and `lifemaxxing` read and write from the same folder at runtime:
+Both `truth-teller` and `cheerleader` read and write from the same folder at runtime:
 
 ```
 ~/.alicestack/
-├── profile.md          ← who this person is (life-coach writes, lifemaxxing reads)
-├── game-state.md       ← patterns, arc, tokens, Villagers (life-coach owns)
+├── profile.md          ← who this person is (truth-teller writes, cheerleader reads)
+├── game-state.md       ← patterns, arc, tokens, Villagers (truth-teller owns)
 └── wins/
-    └── timeline.md     ← daily wins + area scores (lifemaxxing owns, life-coach reads)
+    └── timeline.md     ← daily wins + area scores (cheerleader owns, truth-teller reads)
 ```
 
 ---
 
 ## profile.md
 
-Written by life-coach on first install. Read by lifemaxxing to personalize win criteria.
+Written by truth-teller on first install. Read by cheerleader to personalize win criteria.
 
 Fields:
 - name
@@ -45,7 +45,7 @@ Fields:
 
 ## game-state.md
 
-Written and read by life-coach. Read by lifemaxxing for morning brief and Villager alerts.
+Written and read by truth-teller. Read by cheerleader for morning brief and Villager alerts.
 
 Format:
 ```
@@ -65,7 +65,7 @@ Villagers:
 
 ## wins/timeline.md
 
-Written by lifemaxxing after each journal entry. Read by life-coach for evidence and pattern correlation.
+Written by cheerleader after each journal entry. Read by truth-teller for evidence and pattern correlation.
 
 Format matches win-calendar timeline — `## Mon DD, YYYY — Title` headings with `area:` field.
 
@@ -80,9 +80,9 @@ Life-coach reads last 7 days on every check-in to:
 
 | File | Writes | Reads |
 |------|--------|-------|
-| profile.md | life-coach | lifemaxxing |
-| game-state.md | life-coach | lifemaxxing (morning brief) |
-| wins/timeline.md | lifemaxxing | life-coach |
+| profile.md | truth-teller | cheerleader |
+| game-state.md | truth-teller | cheerleader (morning brief) |
+| wins/timeline.md | cheerleader | truth-teller |
 
 ---
 

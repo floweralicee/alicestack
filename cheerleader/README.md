@@ -1,4 +1,4 @@
-# lifemaxxing
+# cheerleader
 
 **This is your cheerleader.**
 
@@ -12,7 +12,7 @@ Not "you've got this" with nothing behind it. Not generic encouragement from an 
 
 Every AI tries to cheer you on. But it has no idea whether you deserve it. It doesn't know what you did last Tuesday. It doesn't know what you've been doing for six months. So when it says "great job," it's just saying words.
 
-lifemaxxing cheers you on with evidence. It's been logging your wins daily — across 5 areas of life — so when you feel behind, it can show you exactly where you've been moving. Your wins log exists. Your AI just hasn't been reading it.
+cheerleader cheers you on with evidence. It's been logging your wins daily — across 5 areas of life — so when you feel behind, it can show you exactly where you've been moving. Your wins log exists. Your AI just hasn't been reading it.
 
 That's the difference.
 
@@ -22,7 +22,7 @@ That's the difference.
 
 The cheerleader knows when you need the truth teller.
 
-When an area has gone quiet for too long — no wins in health for 9 days, relationships silent for 2 weeks — lifemaxxing doesn't just log it. It passes the signal to life-coach: *"Something's been quiet here. You should ask what's going on."*
+When an area has gone quiet for too long — no wins in health for 9 days, relationships silent for 2 weeks — cheerleader doesn't just log it. It passes the signal to truth-teller: *"Something's been quiet here. You should ask what's going on."*
 
 Because cheering someone through avoidance isn't support. It's just comfortable.
 
@@ -31,7 +31,7 @@ Because cheering someone through avoidance isn't support. It's just comfortable.
 ## Quick start
 
 ```
-Load the skill at lifemaxxing/skill/SKILL.md
+Load the skill at cheerleader/skill/SKILL.md
 ```
 
 Follow Q1–Q3 in chat. It shows you the default win standard first — what counts as a win — and asks if it feels right for you.
@@ -60,11 +60,11 @@ Every win = 1 point. The heatmap fills. The gaps become visible.
 
 **Shows you proof when you need it.** When you're low, the system leads with your win history before anything else. Evidence first.
 
-**Alerts the truth teller when something goes quiet.** When an area hasn't had a win in 5+ days and a pattern is active, it connects the dots and hands the signal to life-coach.
+**Alerts the truth teller when something goes quiet.** When an area hasn't had a win in 5+ days and a pattern is active, it connects the dots and hands the signal to truth-teller.
 
 ---
 
-## When it hands off to life-coach
+## When it hands off to truth-teller
 
 - An area quiet for 5+ days + a Villager is active → truth teller gets the signal
 - A win pattern looks like avoidance behavior (building systems instead of shipping) → flags it
@@ -92,17 +92,17 @@ Two views at http://localhost:5173:
 ## Setup
 
 ```bash
-cd lifemaxxing/ui
+cd cheerleader/ui
 npm install && npm run dev
 ```
 
 ---
 
-## Works with life-coach
+## Works with truth-teller
 
-Reads `~/.alicestack/game-state.md` — life-coach's Villager + arc state — to connect quiet areas to active patterns in the morning brief.
+Reads `~/.alicefriends/game-state.md` — truth-teller's Villager + arc state — to connect quiet areas to active patterns in the morning brief.
 
-Writes `~/.alicestack/wins/timeline.md` so life-coach can pull evidence when you need proof you can do something.
+Writes `~/.alicefriends/wins/timeline.md` so truth-teller can pull evidence when you need proof you can do something.
 
 [Shared state schema →](../shared/state-schema.md)
 
@@ -111,7 +111,7 @@ Writes `~/.alicestack/wins/timeline.md` so life-coach can pull evidence when you
 ## Structure
 
 ```
-lifemaxxing/
+cheerleader/
 ├── skill/
 │   ├── SKILL.md                      ← load this
 │   ├── default-win-instructions.md   ← defaults shown at install
@@ -123,4 +123,4 @@ lifemaxxing/
 
 ---
 
-*Part of [alicestack](../README.md) — the cheerleader. Works with [life-coach](../life-coach/README.md), the truth teller.*
+*Part of [alicefriends](../README.md) — the cheerleader. Works with [truth-teller](../truth-teller/README.md), the truth teller.*

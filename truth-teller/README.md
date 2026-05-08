@@ -1,4 +1,4 @@
-# life-coach
+# truth-teller
 
 **This is your truth teller.**
 
@@ -12,7 +12,7 @@ It knows your patterns. It knows the gap between what you say you want and what 
 
 Every AI tries to push back sometimes. But it's pushing back with no information about you specifically. It's giving advice that could apply to anyone.
 
-life-coach pushes back with *your* data. It's seen the pattern three times before. It knows which Villager is running right now. It knows which area of your life has gone quiet. When it calls something out, it's not a heuristic. It's your actual behavior.
+truth-teller pushes back with *your* data. It's seen the pattern three times before. It knows which Villager is running right now. It knows which area of your life has gone quiet. When it calls something out, it's not a heuristic. It's your actual behavior.
 
 That's what makes it land.
 
@@ -22,7 +22,7 @@ That's what makes it land.
 
 The truth teller knows when you need the cheerleader first.
 
-When you show up defeated — wins sparse, tone low — life-coach reads your `wins/timeline.md` before it says anything. It leads with what you've actually done. It hands you evidence before it asks anything hard.
+When you show up defeated — wins sparse, tone low — truth-teller reads your `wins/timeline.md` before it says anything. It leads with what you've actually done. It hands you evidence before it asks anything hard.
 
 Because calling someone out when they're already down isn't honesty. It's just timing it badly.
 
@@ -31,7 +31,7 @@ Because calling someone out when they're already down isn't honesty. It's just t
 ## Quick start
 
 ```
-Load the skill at life-coach/SKILL.md
+Load the skill at truth-teller/SKILL.md
 ```
 
 First run asks 5 questions. Every session after, it remembers.
@@ -46,15 +46,15 @@ First run asks 5 questions. Every session after, it remembers.
 
 **Mirrors the truth.** Answers the hard questions about your identity and unconscious goals — from your own data. Shows you the answer. Says: "Tell me where I'm wrong."
 
-**Leads with wins when you need it.** Reads lifemaxxing's win history. When you're low, it shows you what you've done before it asks anything hard.
+**Leads with wins when you need it.** Reads cheerleader's win history. When you're low, it shows you what you've done before it asks anything hard.
 
 **Runs the game.** Daily quests, season arcs, Clarity Tokens, Villager characters for your patterns. Growth feels like building something.
 
 ---
 
-## When it hands off to lifemaxxing
+## When it hands off to cheerleader
 
-- You show up defeated or uncertain → lifemaxxing leads with win evidence first
+- You show up defeated or uncertain → cheerleader leads with win evidence first
 - Wins have been sparse for 5+ days → cheerleader mode before pattern audit
 - You explicitly say you're struggling → evidence first, hard questions later
 
@@ -73,14 +73,14 @@ Token unlocks: 10 → choose your quest · 25 → rest day · 50 → big picture
 
 ---
 
-## Works with lifemaxxing
+## Works with cheerleader
 
-Reads `~/.alicestack/wins/timeline.md` — lifemaxxing's daily win log — to:
+Reads `~/.alicefriends/wins/timeline.md` — cheerleader's daily win log — to:
 - Surface evidence when you say you can't do something
 - Connect quiet areas to active Villager patterns
 - Lead with wins when you need them
 
-Writes `~/.alicestack/game-state.md` so lifemaxxing can:
+Writes `~/.alicefriends/game-state.md` so cheerleader can:
 - Include Villager status in the morning brief
 - Flag when wins look like pattern behavior, not real progress
 
@@ -91,7 +91,7 @@ Writes `~/.alicestack/game-state.md` so lifemaxxing can:
 ## Files
 
 ```
-life-coach/
+truth-teller/
 ├── SKILL.md              ← load this
 ├── README.md             ← you are here
 └── profile-template/
@@ -104,4 +104,4 @@ life-coach/
 
 ---
 
-*Part of [alicestack](../README.md) — the truth teller. Works with [lifemaxxing](../lifemaxxing/README.md), the cheerleader.*
+*Part of [alicefriends](../README.md) — the truth teller. Works with [cheerleader](../cheerleader/README.md), the cheerleader.*

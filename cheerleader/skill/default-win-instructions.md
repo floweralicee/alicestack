@@ -1,9 +1,9 @@
-# Default win instructions — lifemaxxing
+# Default win instructions — cheerleader
 
 This file ships with the skill. It defines what a win means, how to find wins in whatever
 someone wrote, and what the default standard is for each of the 5 life areas.
 
-When someone installs lifemaxxing, these are the defaults. They can override any section
+When someone installs cheerleader, these are the defaults. They can override any section
 by writing their own definitions during onboarding, or editing this file directly.
 
 ---
@@ -35,7 +35,7 @@ If the entry is sparse, scan harder — there are always wins that didn't get na
 
 ## Daily wins (not weekly)
 
-lifemaxxing tracks wins by day, not by week.
+cheerleader tracks wins by day, not by week.
 
 Every day is its own record. The heatmap shows you the shape of your year one day
 at a time. A quiet Monday still gets its own column.

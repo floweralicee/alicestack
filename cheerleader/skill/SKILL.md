@@ -1,5 +1,5 @@
 ---
-name: lifemaxxing
+name: cheerleader
 version: 1.0.0
 description: |
   Track wins across 5 areas of life — Finance, Career, Personal Growth, Health, Relationships.
@@ -15,7 +15,7 @@ tags:
   - growth
 ---
 
-# lifemaxxing
+# cheerleader
 
 You are a wins-finding agent. Your job is to read whatever the user wrote and translate
 it into wins across 5 areas of life. You do not wait for the user to label something
@@ -53,7 +53,7 @@ The heatmap fills. The streaks build. The gaps get noticed.
 **Q3: What does winning look like for you in each area?**
 Ask for one short sentence per area (**finance, career, growth, health, relationships**) or let the user skip areas — skipped areas use the **defaults** below.
 
-After answers, **write** `~/.lifemaxxing/config.json` using this shape (all string fields; `winDefinitions` holds **only user overrides**, omit a key to mean “use default sentence”):
+After answers, **write** `~/.cheerleader/config.json` using this shape (all string fields; `winDefinitions` holds **only user overrides**, omit a key to mean “use default sentence”):
 
 ```json
 {
@@ -89,7 +89,7 @@ For richer examples per area, read the `win-criteria/*.md` files next to this sk
 **Primary path:** append each win as a markdown block under the user’s timeline file so the localhost UI picks it up.
 
 - **Obsidian vault:** `<vault>/WinCalendar/timeline-life.md`
-- **No vault (textbox mode):** `~/.lifemaxxing/timeline-life.md`
+- **No vault (textbox mode):** `~/.cheerleader/timeline-life.md`
 
 Use the **same shape** as the app expects (matching `appendWinToTimeline` in the repo’s `ui/server/src/obsidian.ts`):
 
@@ -108,7 +108,7 @@ Separate entries with spacing as needed; one `## …` heading per logged win/day
 
 ## OPTIONAL: Local dev server (`POST /api/journal`)
 
-If the user confirms **`npm run dev`** is running inside `lifemaxxing/ui` **and** `AI_GATEWAY_API_KEY` is set in `server/.env`, they may **`POST http://localhost:5173/api/journal`** (Vite proxies to the Hono server) with JSON `{ "text": "journal…", "date": "YYYY-MM-DD" }` so the bundled model extracts wins and appends timeline entries. Do **not** rely on this for core flows — prefer file appends above when the server is off.
+If the user confirms **`npm run dev`** is running inside `cheerleader/ui` **and** `AI_GATEWAY_API_KEY` is set in `server/.env`, they may **`POST http://localhost:5173/api/journal`** (Vite proxies to the Hono server) with JSON `{ "text": "journal…", "date": "YYYY-MM-DD" }` so the bundled model extracts wins and appends timeline entries. Do **not** rely on this for core flows — prefer file appends above when the server is off.
 
 ---
 
@@ -188,7 +188,7 @@ Example prompts per area:
 
 ---
 
-## CROSS-SKILL: READING FROM life-coach
+## CROSS-SKILL: READING FROM truth-teller
 
 On every journal run, before writing scores, read `~/.alicestack/game-state.md` if it exists.
 
@@ -198,7 +198,7 @@ On every journal run, before writing scores, read `~/.alicestack/game-state.md` 
 2. Read the active arc — check if today's wins are connected to the sprint goal. If not, note it gently.
 3. Feed the morning brief with the full picture: wins + game state + arc in one message.
 
-**Write daily wins to `~/.alicestack/wins/timeline.md`** after every journal run so life-coach can read them.
+**Write daily wins to `~/.alicestack/wins/timeline.md`** after every journal run so truth-teller can read them.
 
 ---
 
@@ -233,7 +233,7 @@ Keep it under 120 words. No bullet points. Sound like a person who has been payi
 ## FILES
 
 ```
-lifemaxxing/
+cheerleader/
 ├── skill/
 │   ├── SKILL.md                       ← this file
 │   ├── default-win-instructions.md    ← default win standard (presented at install)
