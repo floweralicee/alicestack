@@ -10,18 +10,6 @@ Most people have neither. And your AI — no matter how good it is — is neithe
 
 ---
 
-## The problem with every other AI
-
-Your AI is already trying to be a cheerleader. It says "you've got this" and "you're doing great." But it has zero idea if that's actually true. It doesn't know your wins. It doesn't know your patterns. It doesn't know what you've been avoiding for six months or what you shipped last Tuesday.
-
-Generic encouragement with no evidence behind it isn't support. It's noise.
-
-And when it pushes back? Same problem. It gives advice that could apply to anyone. It doesn't know that this new plan is the third version of the same avoidance. It can't see that.
-
-So both modes fail — the cheerleading is empty and the feedback is generic — because the AI doesn't know you.
-
----
-
 ## Without alicefriends
 
 - Your AI cheers you on with no idea whether you deserve it — "great job!" about a thing it doesn't know the context of
