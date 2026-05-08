@@ -6,7 +6,7 @@ Not a task manager. Not a habit tracker. A wins tracker — because you're alrea
 
 ---
 
-## The 5 areas
+## The 5 life areas
 
 | Area | What it tracks |
 |------|---------------|
@@ -20,75 +20,90 @@ Every win = 1 point. The heatmap fills. The gaps become visible.
 
 ---
 
-## How to log wins
+## How it works
 
-**Primary path:** Through your **agent** (OpenClaw, Hermes, etc.) using the **`lifemaxxing/skill`** instructions — you answer setup in chat, paste or describe your day, and the agent finds wins and appends them to your timeline markdown (Obsidian vault or `~/.lifemaxxing`).
+**The agent finds wins for you.**
 
-Optional: run the **`ui`** dev server so **`POST /api/journal`** can extract wins via the gateway (**`AI_GATEWAY_API_KEY`** in `server/.env`). Prefer file-based appends when the server is off.
+You don't need to label anything a win. You write — journal entry, quick note, voice memo — and the agent reads it and translates it into wins across the 5 areas.
 
-The **browser UI does not replace chat logging** — it is for viewing the calendar/heatmap and opening **Profile** to adjust the same settings the skill wrote (`~/.lifemaxxing/config.json`).
+"Made dinner" → Health win.
+"Replied to that email I'd been avoiding" → Career + Growth win.
+"Cried about something and felt better" → Health win.
+"Went to the boardwalk even though I didn't feel like it" → Health + Relationships.
+
+The win doesn't need to be dramatic. It doesn't need to be intentional. It doesn't need to be finished.
+
+**Daily, not weekly.** Every day is its own record. A quiet day still has wins. The point is to catch what was real.
+
+**Low area alerts.** When any area hasn't had a win in 5+ days, your next journal prompt includes a gentle nudge: *"Did anything happen there this week you might have missed?"* Not guilt. Just curiosity.
 
 ---
 
-## What the agent does
+## On first install
 
-Reads your journal and translates it into wins — including the ones you forgot about.
+The skill shows you the default win standard — what counts as a win for each area — and asks if it feels right for you. You can accept the defaults or change any area to match how you actually live. The standard is saved once and used from then on.
 
-"Made dinner" → Health win.
-"Replied to that email I'd been avoiding" → Career win.
-"Cried about something and felt better" → Health + Growth win.
-
-When an area hasn't had a win in 5+ days, your next journal prompt includes a gentle nudge question toward that area. Not guilt. Just: *"Did anything happen there this week you might have missed?"*
+[See the defaults →](skill/default-win-instructions.md)
 
 ---
 
 ## The UI
 
-**Month view** — calendar grid, colored area dots each day (see [win-calendar](https://github.com/floweralicee/win-calendar)).
+Two views at http://localhost:5173:
 
-**Year view** — GitHub-style heatmap per area.
+**Month view** — calendar grid with colored area dots on each day. Click any day to see the wins.
 
-Use **Profile** in the UI to tweak capture mode, reminders, timezone, vault path (Obsidian mode), and per-area win definitions once the skill has created `config.json`.
+**Year view** — GitHub-style heatmap per life area, 52 weeks across. This is where you see the shape of your year.
 
 ---
 
 ## Setup
 
-1. **Skill / chat onboarding** — With the agent, follow **Q1→Q3** in [`skill/SKILL.md`](skill/SKILL.md) so `~/.lifemaxxing/config.json` exists (see the skill for default win meanings and timeline paths).
+### Step 1 — Skill onboarding (chat)
 
-2. **Optional: view dashboard locally**
+Load the skill in any agent (OpenClaw, Claude Code, Hermes, etc.):
 
-From the repo root (`lifemaxxing/`):
+```
+Load the skill at lifemaxxing/skill/SKILL.md
+```
+
+Answer Q1–Q3 in chat. The skill saves `~/.lifemaxxing/config.json` and you're set.
+
+### Step 2 — Optional: run the UI locally
 
 ```bash
-cd lifemaxxing
+cd lifemaxxing/ui
 npm install
-cp ui/server/.env.example ui/server/.env
-# For optional AI extraction routes only: add AI_GATEWAY_API_KEY to ui/server/.env
+cp server/.env.example server/.env
+# Optional: add AI_GATEWAY_API_KEY for server-side win extraction
 npm run dev
 ```
 
-Or only inside **`lifemaxxing/ui`**: install there, copy `server/.env.example`, then `npm run dev`.
+Open http://localhost:5173 to see your calendar and heatmap.
 
-Open http://localhost:5173 — use **Profile** to edit saved answers; wins still flow from the agent or optional API routes as described in the skill.
+---
 
 ## Structure
 
 ```
 lifemaxxing/
-├── skill/              ← the agent skill
-│   ├── SKILL.md        ← win-finding agent instructions
-│   └── win-criteria/   ← what counts as a win per area
-└── ui/                 ← the localhost web app
-    ├── src/            ← React frontend
-    └── server/         ← Hono server + AI extraction
+├── skill/
+│   ├── SKILL.md                      ← agent instructions (load this)
+│   ├── default-win-instructions.md   ← default win standard, shown at install
+│   └── win-criteria/                 ← detailed examples per area
+│       ├── finance.md
+│       ├── career.md
+│       ├── growth.md
+│       ├── health.md
+│       └── relationships.md
+└── ui/
+    ├── src/                          ← React frontend (month + year views)
+    └── server/                       ← Hono server + optional AI extraction
 ```
 
 ---
 
-## Part of alicestack
-
-This is one tool in Alice's personal AI stack. See [../README.md](../README.md) for the full stack.
+*Part of [alicestack](../README.md)*
 
 The win-finding agent logic is adapted from Alice's `agent_wins_instructions_v2.md`.
 The UI is adapted from [win-calendar](https://github.com/floweralicee/win-calendar).
