@@ -1,45 +1,43 @@
-import type { WinsByDate, LifeArea } from './wins'
+import type { WinsByDate } from './wins'
 
-export type GoalStatus = 'active' | 'achieved' | 'paused'
+// ── Config ────────────────────────────────────────────────────────────────────
 
-export type Goal = {
-  id: string
-  title: string
-  area: LifeArea
-  targetDate: string
-  weeklyMilestone?: string
-  status: GoalStatus
-  createdAt: string
-}
-
-export type GoalInput = {
-  title: string
-  area: LifeArea
-  targetDate: string
-  weeklyMilestone?: string
-  status?: GoalStatus
-}
+export type CaptureMode = 'obsidian' | 'textbox' | 'hana'
+export type ReminderMode = 'morning' | 'evening' | 'none'
 
 export type PublicConfig = {
   onboarded: boolean
+  captureMode?: CaptureMode
   obsidianPath?: string
-  email?: string
+  reminderMode?: ReminderMode
+  reminderTime?: string
   timezone?: string
-  revealHour?: number
+  winDefinitions?: Record<string, string>
 }
 
 export type OnboardingPayload = {
-  obsidianPath: string
-  email: string
-  timezone: string
-  revealHour?: number
+  captureMode: CaptureMode
+  obsidianPath?: string
+  reminderMode: ReminderMode
+  reminderTime?: string
+  timezone?: string
+  winDefinitions?: Record<string, string>
 }
 
-export type JournalSubmitResult = {
-  ok: boolean
-  winsCount: number
+// ── Journal / wins ────────────────────────────────────────────────────────────
+
+export type JournalResult = {
+  winsFound: number
+  scores: Record<string, number>
+  lowAreaAlert: {
+    area: string
+    daysSince: number
+    prompt: string
+  } | null
   message: string
 }
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
 
 async function parseJsonOrThrow<T>(response: Response): Promise<T> {
   let json: unknown
@@ -50,7 +48,8 @@ async function parseJsonOrThrow<T>(response: Response): Promise<T> {
   }
   if (!response.ok) {
     const message =
-      json && typeof json === 'object' && 'error' in json && typeof (json as { error: unknown }).error === 'string'
+      json && typeof json === 'object' && 'error' in json &&
+      typeof (json as { error: unknown }).error === 'string'
         ? (json as { error: string }).error
         : `Server returned ${response.status}.`
     throw new Error(message)
@@ -58,80 +57,36 @@ async function parseJsonOrThrow<T>(response: Response): Promise<T> {
   return json as T
 }
 
+// ── API calls ─────────────────────────────────────────────────────────────────
+
 export async function fetchConfig(): Promise<PublicConfig> {
-  const response = await fetch('/api/config')
-  return parseJsonOrThrow<PublicConfig>(response)
+  const res = await fetch('/api/config')
+  return parseJsonOrThrow<PublicConfig>(res)
 }
 
 export async function submitOnboarding(payload: OnboardingPayload): Promise<PublicConfig> {
-  const response = await fetch('/api/config', {
+  const res = await fetch('/api/config', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   })
-  return parseJsonOrThrow<PublicConfig>(response)
+  return parseJsonOrThrow<PublicConfig>(res)
 }
 
 export async function fetchWins(): Promise<WinsByDate> {
-  const response = await fetch('/api/wins')
-  const json = await parseJsonOrThrow<{ winsByDate: WinsByDate }>(response)
+  const res = await fetch('/api/wins')
+  const json = await parseJsonOrThrow<{ winsByDate: WinsByDate }>(res)
   return json.winsByDate ?? {}
 }
 
-export async function submitJournal(payload: { text: string; dateISO: string }): Promise<JournalSubmitResult> {
-  const response = await fetch('/api/journal', {
+export async function submitJournal(payload: {
+  text: string
+  date?: string
+}): Promise<JournalResult> {
+  const res = await fetch('/api/journal', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   })
-  return parseJsonOrThrow<JournalSubmitResult>(response)
-}
-
-export async function deleteWin(winId: string): Promise<void> {
-  const response = await fetch(`/api/wins/${encodeURIComponent(winId)}`, {
-    method: 'DELETE',
-  })
-  await parseJsonOrThrow<{ ok: boolean }>(response)
-}
-
-export async function fetchGoals(): Promise<Goal[]> {
-  const response = await fetch('/api/goals')
-  const json = await parseJsonOrThrow<{ goals: Goal[] }>(response)
-  return json.goals ?? []
-}
-
-export async function createGoal(input: GoalInput): Promise<Goal> {
-  const response = await fetch('/api/goals', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(input),
-  })
-  const json = await parseJsonOrThrow<{ goal: Goal }>(response)
-  return json.goal
-}
-
-export async function updateGoal(id: string, updates: Partial<GoalInput & { status: GoalStatus }>): Promise<Goal> {
-  const response = await fetch(`/api/goals/${encodeURIComponent(id)}`, {
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(updates),
-  })
-  const json = await parseJsonOrThrow<{ goal: Goal }>(response)
-  return json.goal
-}
-
-export async function removeGoal(id: string): Promise<void> {
-  const response = await fetch(`/api/goals/${encodeURIComponent(id)}`, {
-    method: 'DELETE',
-  })
-  await parseJsonOrThrow<{ ok: boolean }>(response)
-}
-
-export async function updateWinAreas(winId: string, areas: LifeArea[]): Promise<void> {
-  const response = await fetch(`/api/wins/${encodeURIComponent(winId)}`, {
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ areas }),
-  })
-  await parseJsonOrThrow<{ ok: boolean }>(response)
+  return parseJsonOrThrow<JournalResult>(res)
 }

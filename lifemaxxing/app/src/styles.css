@@ -288,7 +288,7 @@ body {
 }
 
 .calendar-area-dot[data-area="finance"] { background: var(--ring-finance); }
-.calendar-area-dot[data-area="social"]  { background: var(--ring-relationships); }
+.calendar-area-dot[data-area="relationships"]  { background: var(--ring-relationships); }
 .calendar-area-dot[data-area="growth"]  { background: var(--ring-growth); }
 .calendar-area-dot[data-area="health"]  { background: var(--ring-health); }
 .calendar-area-dot[data-area="career"]  { background: var(--ring-career); }
@@ -439,7 +439,7 @@ body {
 }
 
 .win-detail-area-tag[data-area="finance"] { background: var(--ring-finance); }
-.win-detail-area-tag[data-area="social"]  { background: var(--ring-relationships); }
+.win-detail-area-tag[data-area="relationships"]  { background: var(--ring-relationships); }
 .win-detail-area-tag[data-area="growth"]  { background: var(--ring-growth); }
 .win-detail-area-tag[data-area="health"]  { background: var(--ring-health); }
 .win-detail-area-tag[data-area="career"]  { background: var(--ring-career); }
@@ -659,7 +659,7 @@ body {
 }
 
 .bloom-legend-dot[data-area="finance"] { background: var(--ring-finance); }
-.bloom-legend-dot[data-area="social"]  { background: var(--ring-relationships); }
+.bloom-legend-dot[data-area="relationships"]  { background: var(--ring-relationships); }
 .bloom-legend-dot[data-area="growth"]  { background: var(--ring-growth); }
 .bloom-legend-dot[data-area="health"]  { background: var(--ring-health); }
 .bloom-legend-dot[data-area="career"]  { background: var(--ring-career); }
@@ -733,7 +733,7 @@ body {
 }
 
 .orbit-dot[data-area="finance"] { fill: var(--ring-finance); }
-.orbit-dot[data-area="social"]  { fill: var(--ring-relationships); }
+.orbit-dot[data-area="relationships"]  { fill: var(--ring-relationships); }
 .orbit-dot[data-area="growth"]  { fill: var(--ring-growth); }
 .orbit-dot[data-area="health"]  { fill: var(--ring-health); }
 .orbit-dot[data-area="career"]  { fill: var(--ring-career); }
@@ -810,7 +810,7 @@ body {
 }
 
 .orbit-legend-dot[data-area="finance"] { background: var(--ring-finance); }
-.orbit-legend-dot[data-area="social"]  { background: var(--ring-relationships); }
+.orbit-legend-dot[data-area="relationships"]  { background: var(--ring-relationships); }
 .orbit-legend-dot[data-area="growth"]  { background: var(--ring-growth); }
 .orbit-legend-dot[data-area="health"]  { background: var(--ring-health); }
 .orbit-legend-dot[data-area="career"]  { background: var(--ring-career); }
@@ -864,7 +864,7 @@ body {
 }
 
 .bloom-popover-dot[data-area="finance"] { background: var(--ring-finance); }
-.bloom-popover-dot[data-area="social"]  { background: var(--ring-relationships); }
+.bloom-popover-dot[data-area="relationships"]  { background: var(--ring-relationships); }
 .bloom-popover-dot[data-area="growth"]  { background: var(--ring-growth); }
 .bloom-popover-dot[data-area="health"]  { background: var(--ring-health); }
 .bloom-popover-dot[data-area="career"]  { background: var(--ring-career); }
@@ -1224,7 +1224,7 @@ body {
 }
 
 .list-win-area-dot[data-area="finance"] { background: var(--ring-finance); }
-.list-win-area-dot[data-area="social"]  { background: var(--ring-relationships); }
+.list-win-area-dot[data-area="relationships"]  { background: var(--ring-relationships); }
 .list-win-area-dot[data-area="growth"]  { background: var(--ring-growth); }
 .list-win-area-dot[data-area="health"]  { background: var(--ring-health); }
 .list-win-area-dot[data-area="career"]  { background: var(--ring-career); }
@@ -1300,7 +1300,7 @@ body {
 .win-detail-area-btn[aria-pressed="true"][data-area="finance"] {
   background: var(--ring-finance); color: var(--paper); border-color: var(--ring-finance);
 }
-.win-detail-area-btn[aria-pressed="true"][data-area="social"] {
+.win-detail-area-btn[aria-pressed="true"][data-area="relationships"] {
   background: var(--ring-relationships); color: var(--paper); border-color: var(--ring-relationships);
 }
 .win-detail-area-btn[aria-pressed="true"][data-area="growth"] {
@@ -1435,7 +1435,7 @@ body {
 }
 
 .goal-card-area-dot[data-area="finance"] { background: var(--ring-finance); }
-.goal-card-area-dot[data-area="social"]  { background: var(--ring-relationships); }
+.goal-card-area-dot[data-area="relationships"]  { background: var(--ring-relationships); }
 .goal-card-area-dot[data-area="growth"]  { background: var(--ring-growth); }
 .goal-card-area-dot[data-area="health"]  { background: var(--ring-health); }
 .goal-card-area-dot[data-area="career"]  { background: var(--ring-career); }
@@ -3308,3 +3308,11 @@ body {
   color: var(--win-muted);
   border: 1px solid var(--rule);
 }
+
+/* ── Area dot class colors (used by Calendar.tsx) ─────────────────────────── */
+.calendar-area-dot--finance      { background: var(--ring-finance); }
+.calendar-area-dot--career       { background: var(--ring-career); }
+.calendar-area-dot--growth       { background: var(--ring-growth); }
+.calendar-area-dot--health       { background: var(--ring-health); }
+.calendar-area-dot--relationships { background: var(--ring-relationships); }
+.calendar-area-dot--unclassified { background: var(--empty-dot); }
