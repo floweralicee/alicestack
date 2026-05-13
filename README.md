@@ -8,15 +8,17 @@ A **cheerleader** — someone who believes in you even when you don't. Who remin
 
 Most people have neither. And your AI — no matter how good it is — is neither. Because it doesn't know you.
 
+**Lucky, we have both here, and the system knows when to switch.**
+
 ---
 
 ## Without alicefriends
 
-- Your AI cheers you on with no idea whether you deserve it — "great job!" about a thing it doesn't know the context of
-- Your AI gives advice that could apply to any founder in any city at any stage — it has no idea who you specifically are
+- Your AI cheers you on with no idea whether you deserve it, "great job!" about a thing it doesn't know the context of
+- - You know what you're avoiding. You're just so smart that you can even fool yourself. And your AI agrees with you.
+- Your AI gives advice that could apply to any founder in any city at any stage, it has no idea who you specifically are
 - You keep making the same decisions that are stopping you from reaching your highest potential because no one can see the pattern from the outside
 - You don't count your wins because they don't look like the person next to you at the coffee shop — and your AI doesn't have your wins either, so it can't correct you
-- You know what you're avoiding. You're just so smart you can even fool yourself. And your AI agrees with you.
 - Nothing is watching other areas of your life — career is up, everything else is quietly falling apart
 - Every session starts from zero — you re-explain your context, get generic advice, feel nothing
 
