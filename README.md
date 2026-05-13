@@ -1,6 +1,6 @@
 # alicestack
 
-**This is what's going to kill your imposter syndrome and torture yourself into greatness.**
+**This is THE SKILL that is here to kill your imposter syndrome and torture yourself into greatness.**
 
 A system that helps you reach your highest potential — by actually knowing who you are.
 
