@@ -378,7 +378,7 @@ The profile is only useful if it stays current. A stale profile gives bad mirror
 
 ---
 
-## CROSS-SKILL: READING FROM cheerleader
+## CROSS-SKILL: READING FROM imposter-syndrome-killer
 
 On every check-in, before responding, read `~/.alicestack/wins/timeline.md` if it exists.
 
@@ -390,7 +390,7 @@ On every check-in, before responding, read `~/.alicestack/wins/timeline.md` if i
    > Don't say "you can do this." Say "On April 23rd you shipped under pressure with no sleep. That already happened."
 4. Feed the morning brief — daily scores + Villager status + arc progress in one summary
 
-**Write active Villager names and status to `~/.alicestack/game-state.md`** after every session so cheerleader can read them.
+**Write active Villager names and status to `~/.alicestack/game-state.md`** after every session so imposter-syndrome-killer can read them.
 
 ---
 

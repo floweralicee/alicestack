@@ -1,45 +1,41 @@
-# alice-friends
+# alicestack
 
-**Everyone needs two types of friends.**
+**This is what's going to kill your imposter syndrome and torture yourself into greatness.**
 
-A **truth teller** — someone who tells you what's actually happening, especially when you can't see it yourself. Who names the pattern. Who calls out what you're rationalizing as strategy when it's actually fear.
+A system that helps you reach your highest potential — by actually knowing who you are.
 
-A **cheerleader** — someone who believes in you even when you don't. Who reminds you what you've already done. Who shows up with evidence, not just vibes.
-
-Most people have neither. And your AI — no matter how good it is — is neither. Because it doesn't know you.
-
-**Lucky, we have both here, and the system knows when to switch.**
+Two skills. Two modes. One system that builds a real picture of you from your history and refuses to let you stay stuck.
 
 ---
 
-## Without alicefriends
+## The problem
 
-- Your AI cheers you on with no idea whether you deserve it, "great job!" about a thing it doesn't know the context of
-- - You know what you're avoiding. You're just so smart that you can even fool yourself. And your AI agrees with you.
-- Your AI gives advice that could apply to any founder in any city at any stage, it has no idea who you specifically are
-- You keep making the same decisions that are stopping you from reaching your highest potential because no one can see the pattern from the outside
-- You don't count your wins because they don't look like the person next to you at the coffee shop — and your AI doesn't have your wins either, so it can't correct you
-- Nothing is watching other areas of your life — career is up, everything else is quietly falling apart
-- Every session starts from zero — you re-explain your context, get generic advice, feel nothing
+Your AI starts from zero every time. It doesn't know you — so when it says "great job," there's nothing behind it. It can't see that you just did something you genuinely couldn't do before. It can't tell you that's actually the win.
+
+You're smart enough to fool yourself. And your AI agrees with every explanation you give it.
+
+You keep repeating the same decisions that are blocking you. Nobody can see the pattern from outside — and your AI resets every session.
+
+Career is up. Everything else is quietly falling apart. Nothing is watching.
 
 ---
 
-## With alicefriends
+## With alicestack
 
-Two skills. Two friends. One system that knows you.
+Two skills. Two modes. One system that knows you.
 
-| Skill | The friend | What it does |
+| Skill | The mode | What it does |
 |-------|-----------|-------------|
-| `truth-teller` | **Truth teller** | Builds a real profile of who you are from your history. Names your patterns before you finish describing the situation. Calls out what you're rationalizing. Pushes back with evidence from your own behavior — not generic advice. |
-| `cheerleader` | **Cheerleader** | Reads what you wrote and finds the wins you forgot. Tracks your growth against your own baseline. When you say "I haven't done anything" — it shows you your timeline and proves you wrong. Believes in you with receipts. |
+| `truth-teller` | **Truth teller** | Builds a real profile of who you are from your history. Names your patterns before you finish describing the situation. Calls out what you're rationalizing. Pushes back with evidence from your own behavior — not generic advice. Runs a game layer so growth feels like arriving somewhere. |
+| `imposter-syndrome-killer` | **Imposter syndrome killer** | Reads your history and finds the wins you forgot, dismissed, or never counted — then shows you the receipts. Not "great job." Specific evidence of what you actually did, including things you couldn't do before. Tracks 5 areas of life so nothing quietly falls apart. |
 
 **The system knows when to switch.**
 
-When you're low on confidence and your wins have been sparse → `cheerleader` leads. It pulls what you've actually done and hands it back before anything else.
+When you're low or dismissing yourself → imposter-syndrome-killer leads. Pulls what you've actually done and hands it back with proof before anything else.
 
-When you're running a pattern and something's been quiet too long → `truth-teller` steps in. Names what's happening. Asks the question you've been avoiding.
+When you're running a pattern and something's been quiet too long → truth-teller steps in. Names what's happening. Asks the question you've been avoiding.
 
-Both skills share the same memory. `truth-teller` reads your wins history. `cheerleader` reads your pattern and game state. They're not two separate tools — they're two modes of the same person who knows you.
+Both skills share the same memory. `truth-teller` reads your wins history. `imposter-syndrome-killer` reads your pattern and game state. They're not two separate tools — they're two modes of the same person who knows you.
 
 ---
 
@@ -47,11 +43,11 @@ Both skills share the same memory. `truth-teller` reads your wins history. `chee
 
 | You signal | Who leads | What happens |
 |-----------|-----------|-------------|
-| "I haven't done anything" / defeated tone | Cheerleader | Pulls last 7 days of wins from timeline. Shows evidence before any feedback. |
+| "I haven't done anything" / defeated tone / dismissing yourself | Imposter-syndrome killer | Pulls last 7 days of wins from timeline. Shows evidence before any feedback. Names what you did that you couldn't do before. |
 | Same pattern appearing again | Truth teller | Names the loop. Connects it to what's been quiet. |
-| Sparse wins + Villager active | Both | Life-coach names the connection. Lifemaxxing finds any wins that were there anyway. |
+| Sparse wins + Villager active | Both | Truth teller names the connection. Imposter-syndrome killer finds any wins that were there anyway. |
 | You ask for real pushback | Truth teller | Full pattern audit. No softening. |
-| You say you're struggling | Cheerleader | Leads with what you've done. Holds the hard truth for later. |
+| You say you're struggling | Imposter-syndrome killer | Leads with what you've done. Holds the hard truth for later. |
 
 ---
 
@@ -61,7 +57,7 @@ No setup. No files. Paste the quick prompt into ChatGPT or Claude and start talk
 
 [→ quick-prompt.md](quick-prompt.md)
 
-It figures out whether you need the truth teller or the cheerleader based on what you share. Works in any chat.
+It figures out whether you need the truth teller or the imposter-syndrome killer based on what you share. Works in any chat.
 
 ---
 
@@ -71,8 +67,8 @@ It figures out whether you need the truth teller or the cheerleader based on wha
 Builds a profile of who you are. Calls your patterns. Pushes back with evidence from your own behavior. Runs a game layer so growth feels like arriving somewhere.
 [Read more →](truth-teller/README.md)
 
-### `cheerleader/` — your cheerleader
-Finds the wins you forgot you had. Tracks 5 areas of life daily. Proves you're growing when you can't see it. Alerts the truth teller when something goes quiet.
+### `cheerleader/` — your imposter-syndrome killer
+Finds the wins you forgot you had — with receipts. Tracks 5 areas of life daily. Proves you're growing when you can't see it. Alerts the truth teller when something goes quiet.
 [Read more →](cheerleader/README.md)
 
 ### `shared/`
@@ -85,10 +81,10 @@ The shared memory both skills read and write. This is what makes them one system
 
 - Alice on X: [@flower_alicee](https://x.com/flower_alicee)
 - Alice on RedNote: flower_alicee
-- [win-calendar](https://github.com/floweralicee/win-calendar) — the calendar UI cheerleader is built on
+- [win-calendar](https://github.com/floweralicee/win-calendar) — the calendar UI the imposter-syndrome-killer is built on
 - [blader/humanizer](https://github.com/blader/humanizer) — EN humanizer
 - [op7418/Humanizer-zh](https://github.com/op7418/Humanizer-zh) — ZH humanizer
 
 ---
 
-*Built for Alice. Shared for anyone who wants it.*
+*Built for Alice. Shared for anyone who needs it.*

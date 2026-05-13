@@ -243,6 +243,7 @@ On every journal run, before writing scores, read `~/.alicestack/game-state.md` 
 
 **Write daily wins to `~/.alicestack/wins/timeline.md`** after every journal run so truth-teller can read them.
 
+
 ---
 
 ## DAILY BRIEF (optional — morning mode)

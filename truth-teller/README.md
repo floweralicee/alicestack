@@ -1,8 +1,8 @@
 # truth-teller
 
-**This is your truth teller.**
+**This is what's going to torture you into greatness.**
 
-The friend who tells you what's actually happening — especially when you've built a very convincing story about why it's fine.
+The skill that helps you reach your highest potential — by refusing to let you fool yourself.
 
 It knows your patterns. It knows the gap between what you say you want and what you're actually doing. And unlike every other AI, it can prove it — because it's been reading your history.
 
@@ -10,7 +10,7 @@ It knows your patterns. It knows the gap between what you say you want and what 
 
 ## What makes it different from generic AI
 
-Every AI tries to push back sometimes. But it's pushing back with no information about you specifically. It's giving advice that could apply to anyone.
+Every AI tries to push back sometimes. But it's pushing back with no information about you specifically. It's giving advice that could apply to anyone at any stage in any city.
 
 truth-teller pushes back with *your* data. It's seen the pattern three times before. It knows which Villager is running right now. It knows which area of your life has gone quiet. When it calls something out, it's not a heuristic. It's your actual behavior.
 
@@ -20,7 +20,7 @@ That's what makes it land.
 
 ## But it knows when not to push
 
-The truth teller knows when you need the cheerleader first.
+The truth teller knows when you need the imposter-syndrome killer first.
 
 When you show up defeated — wins sparse, tone low — truth-teller reads your `wins/timeline.md` before it says anything. It leads with what you've actually done. It hands you evidence before it asks anything hard.
 
@@ -34,7 +34,7 @@ Because calling someone out when they're already down isn't honesty. It's just t
 Load the skill at truth-teller/SKILL.md
 ```
 
-First run asks 5 questions. Every session after, it remembers.
+First run asks 5 questions — but only if it can't build your profile from chat history first. Every session after, it remembers.
 
 ---
 
@@ -46,17 +46,17 @@ First run asks 5 questions. Every session after, it remembers.
 
 **Mirrors the truth.** Answers the hard questions about your identity and unconscious goals — from your own data. Shows you the answer. Says: "Tell me where I'm wrong."
 
-**Leads with wins when you need it.** Reads cheerleader's win history. When you're low, it shows you what you've done before it asks anything hard.
+**Leads with wins when you need it.** Reads the imposter-syndrome killer's win history. When you're low, it shows you what you've done before it asks anything hard.
 
 **Runs the game.** Daily quests, season arcs, Clarity Tokens, Villager characters for your patterns. Growth feels like building something.
 
 ---
 
-## When it hands off to cheerleader
+## When it hands off to imposter-syndrome-killer
 
-- You show up defeated or uncertain → cheerleader leads with win evidence first
-- Wins have been sparse for 5+ days → cheerleader mode before pattern audit
-- You explicitly say you're struggling → evidence first, hard questions later
+- You show up defeated or dismissing yourself → imposter-syndrome killer leads with win evidence first
+- Wins have been sparse for 5+ days → evidence mode before pattern audit
+- You explicitly say you're struggling → receipts first, hard questions later
 
 ---
 
@@ -73,14 +73,14 @@ Token unlocks: 10 → choose your quest · 25 → rest day · 50 → big picture
 
 ---
 
-## Works with cheerleader
+## Works with imposter-syndrome-killer
 
-Reads `~/.alicefriends/wins/timeline.md` — cheerleader's daily win log — to:
+Reads `~/.alicestack/wins/timeline.md` — the daily win log — to:
 - Surface evidence when you say you can't do something
 - Connect quiet areas to active Villager patterns
 - Lead with wins when you need them
 
-Writes `~/.alicefriends/game-state.md` so cheerleader can:
+Writes `~/.alicestack/game-state.md` so the imposter-syndrome killer can:
 - Include Villager status in the morning brief
 - Flag when wins look like pattern behavior, not real progress
 
@@ -104,4 +104,4 @@ truth-teller/
 
 ---
 
-*Part of [alicefriends](../README.md) — the truth teller. Works with [cheerleader](../cheerleader/README.md), the cheerleader.*
+*Part of [alicestack](../README.md) — the truth teller. Works with [imposter-syndrome-killer](../cheerleader/README.md).*
