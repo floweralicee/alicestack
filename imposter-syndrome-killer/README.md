@@ -39,7 +39,7 @@ Because cheering someone through avoidance isn't support. It's just comfortable.
 ## Quick start
 
 ```
-Load the skill at cheerleader/skill/SKILL.md
+Load the skill at imposter-syndrome-killer/skill/SKILL.md
 ```
 
 Follow Q1–Q3 in chat. It shows you the default win standard first — what counts as a win — and asks if it feels right for you.
@@ -102,7 +102,7 @@ Two views at http://localhost:5173:
 ## Setup
 
 ```bash
-cd cheerleader/ui
+cd imposter-syndrome-killer/ui
 npm install && npm run dev
 ```
 
@@ -121,7 +121,7 @@ Writes `~/.alicestack/wins/timeline.md` so truth-teller can pull evidence when y
 ## Structure
 
 ```
-cheerleader/
+imposter-syndrome-killer/
 ├── skill/
 │   ├── SKILL.md                      ← load this
 │   ├── default-win-instructions.md   ← defaults shown at install

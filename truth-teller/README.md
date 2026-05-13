@@ -104,4 +104,4 @@ truth-teller/
 
 ---
 
-*Part of [alicestack](../README.md) — the truth teller. Works with [imposter-syndrome-killer](../cheerleader/README.md).*
+*Part of [alicestack](../README.md) — the truth teller. Works with [imposter-syndrome-killer](../imposter-syndrome-killer/README.md).*

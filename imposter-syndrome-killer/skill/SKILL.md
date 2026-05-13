@@ -143,7 +143,7 @@ Separate entries with spacing as needed; one `## …` heading per logged win/day
 
 ## OPTIONAL: Local dev server (`POST /api/journal`)
 
-If the user confirms **`npm run dev`** is running inside `cheerleader/ui` **and** `AI_GATEWAY_API_KEY` is set in `server/.env`, they may **`POST http://localhost:5173/api/journal`** (Vite proxies to the Hono server) with JSON `{ "text": "journal…", "date": "YYYY-MM-DD" }` so the bundled model extracts wins and appends timeline entries. Do **not** rely on this for core flows — prefer file appends above when the server is off.
+If the user confirms **`npm run dev`** is running inside `imposter-syndrome-killer/ui` **and** `AI_GATEWAY_API_KEY` is set in `server/.env`, they may **`POST http://localhost:5173/api/journal`** (Vite proxies to the Hono server) with JSON `{ "text": "journal…", "date": "YYYY-MM-DD" }` so the bundled model extracts wins and appends timeline entries. Do **not** rely on this for core flows — prefer file appends above when the server is off.
 
 ---
 
@@ -278,7 +278,7 @@ Keep it under 120 words. No bullet points. Sound like a person who has been payi
 ## FILES
 
 ```
-cheerleader/
+imposter-syndrome-killer/
 ├── skill/
 │   ├── SKILL.md                       ← this file (imposter-syndrome-killer)
 │   ├── default-win-instructions.md    ← default win standard (presented at install)

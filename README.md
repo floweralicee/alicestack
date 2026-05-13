@@ -65,9 +65,9 @@ It figures out whether you need the truth teller or the imposter-syndrome killer
 Builds a profile of who you are. Calls your patterns. Pushes back with evidence from your own behavior. Runs a game layer so growth feels like arriving somewhere.
 [Read more →](truth-teller/README.md)
 
-### `cheerleader/` — your imposter-syndrome killer
+### `imposter-syndrome-killer/` — your imposter-syndrome killer
 Finds the wins you forgot you had — with receipts. Tracks 5 areas of life daily. Proves you're growing when you can't see it. Alerts the truth teller when something goes quiet.
-[Read more →](cheerleader/README.md)
+[Read more →](imposter-syndrome-killer/README.md)
 
 ### `shared/`
 The shared memory both skills read and write. This is what makes them one system instead of two.
