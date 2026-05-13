@@ -2,15 +2,13 @@
 
 **This is THE SKILL that is here to kill your imposter syndrome and torture yourself into greatness.**
 
-A system that helps you reach your highest potential — by actually knowing who you are.
-
-Two skills. Two modes. One system that builds a real picture of you from your history and refuses to let you stay stuck.
+Two modes. One system that builds a real picture of you from your history and helps you reach your highest potential.
 
 ---
 
 ## The problem
 
-Your AI starts from zero every time. It doesn't know you — so when it says "great job," there's nothing behind it. It can't see that you just did something you genuinely couldn't do before. It can't tell you that's actually the win.
+Your AI starts from zero every time. It can't see that you just did something you genuinely couldn't do before. It can't tell you that's actually the win.
 
 You're smart enough to fool yourself. And your AI agrees with every explanation you give it.
 
@@ -80,7 +78,7 @@ The shared memory both skills read and write. This is what makes them one system
 ## Links
 
 - Alice on X: [@flower_alicee](https://x.com/flower_alicee)
-- Alice on RedNote: flower_alicee
+- Alice on RedNote: 咕噜咕噜alice
 - [win-calendar](https://github.com/floweralicee/win-calendar) — the calendar UI the imposter-syndrome-killer is built on
 - [blader/humanizer](https://github.com/blader/humanizer) — EN humanizer
 - [op7418/Humanizer-zh](https://github.com/op7418/Humanizer-zh) — ZH humanizer
