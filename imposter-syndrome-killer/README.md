@@ -8,6 +8,18 @@ Not "you've got this" with nothing behind it. Not generic encouragement from an 
 
 ---
 
+## You are not alone
+
+![Everyone gets imposter syndrome](assets/everyone-gets-it.png)
+
+The whole pie. Every slice. That's who gets imposter syndrome.
+
+You're not uniquely broken. You're not the only one who feels like a fraud while the person next to them at the coffee shop seems to have it figured out. They don't. The chart doesn't lie.
+
+The difference is: most people white-knuckle through it alone. This gives you a system that fights back with evidence.
+
+---
+
 ## What makes it different from generic AI
 
 Every AI tries to cheer you on. But it has no idea whether you deserve it. It doesn't know what you did last Tuesday. It doesn't know what you've been doing for six months. So when it says "great job," it's just saying words.
